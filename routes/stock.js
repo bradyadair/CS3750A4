@@ -26,4 +26,28 @@
     res.render('stock');
   });
 
+  router.get('/stocklist', function(req, res, next) {
+
+    var sess = req.session;
+    var decodedToken = jwt.verify(sess.token, 'secret');
+    
+    res.render('stocklist');
+  });
+
+    router.get('/stockview', function(req, res, next) {
+
+    var sess = req.session;
+    var decodedToken = jwt.verify(sess.token, 'secret');
+    
+    res.render('stockview');
+  });
+
+    router.get('/stockview', function(req, res, next) {
+
+    var sess = req.session;
+    var decodedToken = jwt.verify(sess.token, 'secret');
+    
+    res.render('stockview');
+  });
+
 module.exports = router;
