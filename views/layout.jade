@@ -1,0 +1,30 @@
+doctype html
+html
+  block variables
+  head
+    -var title = title || "Let's Chat!"
+    title #{title}
+    link(href='../css/style.css', type='text/css', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Bungee', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Varela+Round', rel='stylesheet', type='text/css')
+    block styles
+  body#style-1
+    header.navbar
+      h1
+        ul
+            li
+                a#logo(href='/') Let's Chat!
+            li
+                block login
+            li
+                block logout
+            li
+                block register
+            li
+                block chat
+    block content
+    footer.footer
+        div
+            p.copy &copy; #{new Date().getFullYear()} - CS 3750 Group 4
+    block scripts
+        

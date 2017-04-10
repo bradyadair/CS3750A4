@@ -1,0 +1,21 @@
+block variables
+	title Chat | Let's Chat
+extends layout
+
+block content
+	input#myName(type='hidden', value=username)
+	div.chat
+		div#chat-messages
+		div#chat-area
+			.chat-status
+				| Status: 
+				span Idle
+			input#chat-text(placeholder='Type your message')
+			input#send(type='button', value='send')
+block logout
+	a#logout(href='/users/logout') Logout
+
+block scripts
+	//script(src='../js/server.js', type='text/javascript')
+	script(src='../js/chat.js', type='text/javascript')
+	script(src='http://localhost:3000/socket.io/socket.io.js')
