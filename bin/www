@@ -5,12 +5,8 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('project2:server');
+var debug = require('debug')('project4:server');
 var http = require('http');
-
-
-//var socket = require('socket.io');
-//var socketController = require('../routes/socket');
 
 
 /**
@@ -26,9 +22,6 @@ console.log('Your application is running on http://localhost:' + port);
  */
 
 var server = http.createServer(app);
-
-//var io = require('socket.io')(server);
-//require('../routes/server')(io);
 
 /**
  * Listen on provided port, on all network interfaces.

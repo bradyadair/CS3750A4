@@ -16,13 +16,13 @@ var jwt = require('jsonwebtoken');
 var $ = require('jQuery')
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/project2');
+mongoose.connect('mongodb://localhost/project4');
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
-  console.log("You're connected to the project 2 db");
+  console.log("You're connected to the project 4 db");
 });
 
 var index = require('./routes/index');
