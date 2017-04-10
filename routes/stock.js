@@ -26,6 +26,14 @@
     res.render('stock');
   });
 
+  router.get('/stock', function(req, res, next) {
+
+    var sess = req.session;
+    var decodedToken = jwt.verify(sess.token, 'secret');
+    
+    res.render('stock');
+  });
+
   router.get('/stocklist', function(req, res, next) {
 
     var sess = req.session;
@@ -42,12 +50,12 @@
     res.render('stockview');
   });
 
-    router.get('/stockview', function(req, res, next) {
+    router.get('/managemoney', function(req, res, next) {
 
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('stockview');
+    res.render('managemoney');
   });
 
 module.exports = router;
