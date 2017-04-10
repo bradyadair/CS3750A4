@@ -17,7 +17,7 @@
         next();
       }    
   });
-
+/*
   router.get('/', function(req, res, next) {
 
     var sess = req.session;
@@ -25,6 +25,7 @@
     
     res.render('stock');
   });
+  */
 
   router.get('/stock', function(req, res, next) {
 
