@@ -1,38 +1,25 @@
 block variables
-    title Home | Let's Chat
+    title Home | Stock Ticker
 extends layout
 
 block content
     div.bodydiv
         h2#aa A
         img#nodelogo(src='img/nodejslogo1.png', alt='nodelogo')
-        h2 web chat
+        h2 Stock Ticker
         h2#chat app
-        a#join(title='Create', href='/chat')
+        a#join(title='Stock', href='/stock')
           #joinbutton
-            #little Join a Chat Room
+            #little Look at your Stocks
             #big TODAY!
         div.info
-            p Let's Chat!&reg; is a new application that allows you to chat with your friends! 
+            p Stock Ticker!&reg; is a new application that allows you to check your stocks! 
                 p Simply create an account by clicking 'Register', fill out the form, then click 
-                    |'Login', and enter your email and password. You're in! Now you can chat with
-                    | anyone else who is logged in!
+                    |'Login', and enter your email and password. You're in! Now you can check
+                    | your stocks!
                 p#getstarted Get Started today! It's FREE and Easy!
 
 block login
     a#login(href='/users/login') Login
 block register
     a#login(href='/users/register') Register
-
-//browser side only
-//use broadcasting on server side
-//<script src="/socket.io/socket.io.js"></script>
-//<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-//<script>
-  var socket = io();
-  $('form').submit(function(){
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;
-  });
-//</script>

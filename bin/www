@@ -27,10 +27,8 @@ console.log('Your application is running on http://localhost:' + port);
 
 var server = http.createServer(app);
 
-var io = require('socket.io')(server);
-require('../routes/server')(io);
-//var io = socket(server);
-//socketController(io);
+//var io = require('socket.io')(server);
+//require('../routes/server')(io);
 
 /**
  * Listen on provided port, on all network interfaces.

@@ -17,7 +17,7 @@ router.get('/login', function(req, res, next) {
       res.render('users/login'); 
     } else {
       
-      res.redirect('../chat');
+      res.redirect('../stock');
     }  
 });
 
@@ -154,7 +154,7 @@ router.post('/login', function(req, res) {
         myEmail = user.email;
         myUsername = user.username;
         
-        res.redirect('../chat');
+        res.redirect('../stock');
       }
     }   
  });
