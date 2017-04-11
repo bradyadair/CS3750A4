@@ -30,6 +30,7 @@ router.all('*', (req, res, next) => {
   });
   */
 
+
 router.get('/stock', function (req, res, next) {
 
   var sess = req.session;
@@ -38,11 +39,19 @@ router.get('/stock', function (req, res, next) {
   res.render('stock');
 });
 
+
+
+
+
+
+
+/****************************    STOCK LIST ROUTER / CONTROLLER ********************8****/
+
 router.get('/stocklist', function (req, res, next) {
 
   var sess = req.session;
   var decodedToken = jwt.verify(sess.token, 'secret');
-  var name = decodedToken.username.replace(" ", "");
+  var name = decodedToken.username.replace(" ", "");      // THIS IS HOW WE HAVE TO GET THE USERNAME, NOTE: MUST USE THE REPLACE CASUE WHITESPACE
 
   User.findOne({
     username: name
@@ -52,20 +61,24 @@ router.get('/stocklist', function (req, res, next) {
     if (!user) {
       res.render('stock/stockview', { Error: "Didnt find the user" });
     } else {
-      var tickers = [];
 
+      // gets the users tickers and puts them in an array, was doing this because it used a different collection in db before but now its its own with watchlist
+      var tickers = [];
+      // add each ticker to tickers
       for (var i = 0; i < user.stocks.length; i++) {
         tickers.push(user.watchlist[i].ticker);
       }
       console.log("\nFound tickers: " + tickers + "\n");
 
       var n = tickers.length;
+      // start of html string to concatonate and pass as final html string
       var finalHtml = "<Table class='stocktable'><tr><th class='stockLabel'>Stock Name</th><th class='stockLabel'>Ticker</th><th class='stockLabel'>Open Price</th><th class='stockLabel'>Current Price</th><th class='stockLabel'>Status</th><th class='stockLabel'></th></tr>"
       var tempHtml = "";
       var status = "";
       var math = 0;
       count = 0;
 
+      // function queries yahoo for financial data and appends to html variables to pass through the render and use on users page
       function yahooFunct(finalHtml, tempHtml, status, math, count, n, res) {
         for (var i = 0; i < n; i++) {
 
@@ -74,7 +87,7 @@ router.get('/stocklist', function (req, res, next) {
             fields: ['s', 'n', 'o', 'l1']
           }, function (err, snapshot) {
             /*
-            {
+            {    this is example of keys in the snapshot
               symbol: 'AAPL',
               name: 'Apple Inc.',t
               open: '250.12',
@@ -103,10 +116,10 @@ router.get('/stocklist', function (req, res, next) {
               console.log(tempHtml);
               count += 1;
               console.log("Count : " + count);
+              // The query isnt syncing well so this is sort of a work around to wait to render the page
+              // We may want a better solution
               if(count == n)
               {
-                console.log("WE ARE EXITING BEFORE QUERY IS DONE");
-                console.log("External Count : " + count);
                 finishHtml(count, tempHtml, finalHtml, res);
               }
             }
@@ -115,19 +128,37 @@ router.get('/stocklist', function (req, res, next) {
         }
       }
 
+      // made this function to delay rendering page because the query for financial data needs a promise, crude workaround
       function finishHtml(count, tempHtml, finalHtml, res) {
-        console.log("WE ARE DOING IT");
-        console.log("Count : " + count);
+        console.log("-- In finishHtml");
+        console.log("Final Count : " + count);
         finalHtml += tempHtml;
         finalHtml += "</table>";
 
         res.render('stocklist', { stockHtml: finalHtml });
       }
       
+      // this is where the functions above actually start getting called, did it last so their vars are declared and instantiated
       yahooFunct(finalHtml, tempHtml, status, math, count, n, res);
     }
   });
 });
+
+
+//  TO DO
+
+router.POST('/stocklist', function (req, res, next) {
+    // TO DO
+    // Delete the selected ticker from watchlist in user
+    // redirect to /stock/stocklist
+});
+
+
+
+
+
+
+/****************************** STOCK VIEW ROUTER ******************************************/
 
 router.get('/stockview', function (req, res, next) {
 
