@@ -522,3 +522,8 @@ textarea:focus {
 #about :hover {
 	color: #19FF8B;
 }
+
+#container{
+	width:100%; 
+	height:400px;
+}

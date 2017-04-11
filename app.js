@@ -5,9 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jade = require('jade');
+var Highcharts = require('highcharts');
 
 
-var User          = require('./models/user');
+var User  = require('./models/user');
+
+
+
 
 // added ***************************
 var app = express();

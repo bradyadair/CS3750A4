@@ -4,6 +4,11 @@
   var session = require('express-session');
   var jwt     = require('jsonwebtoken');
   var router  = express.Router();
+  var Highcharts = require('Highcharts');
+
+  
+ // var Highcharts = require('highcharts');
+ //require('highcharts/modules/exporting')(Highcharts);
 
   router.all('*', (req, res, next)=>{
       //check if token exists
