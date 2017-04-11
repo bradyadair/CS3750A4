@@ -5,6 +5,9 @@
   var jwt     = require('jsonwebtoken');
   var router  = express.Router();
 
+  
+  var Highcharts = require('highcharts'); // Since 4.2.0
+
   router.all('*', (req, res, next)=>{
       //check if token exists
       var sess = req.session;    
@@ -47,7 +50,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('managemoney');
+    res.render('managemoney', {Highcharts: Highcharts});
   });
 
 module.exports = router;

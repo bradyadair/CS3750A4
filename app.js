@@ -15,6 +15,7 @@ var session = require('express-session');
 var jwt = require('jsonwebtoken');
 var $ = require('jQuery')
 
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/project4');
 var db = mongoose.connection;
