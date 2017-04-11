@@ -17,15 +17,6 @@
         next();
       }    
   });
-/*
-  router.get('/', function(req, res, next) {
-
-    var sess = req.session;
-    var decodedToken = jwt.verify(sess.token, 'secret');
-    
-    res.render('stock');
-  });
-  */
 
   router.get('/stock', function(req, res, next) {
 
