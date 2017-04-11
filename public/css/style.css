@@ -522,3 +522,83 @@ textarea:focus {
 #about :hover {
 	color: #19FF8B;
 }
+
+.stock_data{
+	color: white;
+	width: 100%;
+	padding: 20px;
+	margin: auto 0;
+	padding-top: 30px;
+	border-collapse: collapse;
+}
+
+.stocktable{
+	padding:5px;
+	width: 100%;
+}
+
+.stockLabel{
+	border: 1px solid #ddd;
+    padding: 8px;
+	padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: black;
+    color: red;
+	font-weight: bold;
+	font-family: 'Bungee', 'Times New Roman', Times, serif;
+	font-size: large;
+	text-align: center;
+}
+
+.stockListRow{
+	color: black;
+}
+
+.stockListRow:nth-child(even){
+	background-color: #1db8e2
+}
+
+.stockListRow:nth-child(odd){
+	background-color: #1b91c4
+}
+
+.stockListRow:hover{
+	background-color: lawngreen;
+}
+
+.stockColumn{
+	border: 1px solid #ddd;
+    padding: 8px;
+	width: 17%;
+	text-align: right;
+}
+
+.stockColumn:nth-child(1){
+	width: 32%;
+	text-align: center;
+}
+
+.stockColumn:nth-child(2){
+	text-align: center;
+}
+
+.stockColumn:nth-child(5){
+	text-align: center;
+}
+
+.stockColumn:nth-child(6){
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+#removebtn{
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font:small-caps;
+	outline-width: inherit;
+	padding: 5px;
+	padding-top: 2px;
+	background-color: white;
+	color: red;
+	outline-color: black;
+}

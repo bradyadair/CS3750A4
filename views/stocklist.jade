@@ -5,6 +5,7 @@ extends layout
 block content
 	div.bodydiv
 		h2 Stock List Page
+	div#stocklist.stock_data
 
 block logout
 	a#logout(href='/users/logout') Logout
@@ -13,3 +14,8 @@ block logout
 	a#logout(href='/stock/managemoney') Money
 
 block scripts
+	script(type='text/javascript')
+		| var finalHtml =!{JSON.stringify(stockHtml)};
+	script(src='/scripts/watchlist.js') 
+	script(type='text/javascript').
+		displayWatchList(finalHtml);

@@ -7,6 +7,14 @@ module.exports = mongoose.model('User', new Schema({
   first_name: String,
   last_name: String,
   password: String,
+  stocks: [{
+    ticker: {type: String},
+    percentage: {type: Number},
+    purchase_price: {type: Number}
+  }],
+  watchlist: [{
+    ticker:{type: String}
+  }],
   messages:  [{ 
     content: { type: String },
     date: { type: Date, default: Date.now }
