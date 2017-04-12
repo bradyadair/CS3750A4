@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jade = require('jade');
 var Highcharts = require('highcharts');
-
+var yahooFinance = require('yahoo-finance');
 
 var User  = require('./models/user');
 
@@ -76,5 +76,28 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// query yahoo finance for data
+// currently one symbol only
+app.locals.queryData = function(symbol, fromDate, toDate) {
+  yahooFinance.historical({
+    symbol: symbol,
+    from: fromDate,
+    to: toDate,
+    period: 'd'  
+  }, function (err, quotes) {
+    if (err) { throw err; }
+    if (quotes[0]) {
+      console.log(
+        '%s\n...\n%s',
+        JSON.stringify(quotes[0], null, 2),
+        JSON.stringify(quotes[quotes.length - 1], null, 2)          
+      );
+      return quotes;
+    } else {
+      console.log('Symbol not Found');    
+    }
+  });
+}
 
 module.exports = app;

@@ -145,7 +145,9 @@ router.post('/login', function(req, res) {
       if (user.password != req.body.password) {
         res.render('users/login', {loginError: "Invalid Login"});
       } else {
-        var genToken = jwt.sign( {username: user.username}, 'secret', {
+        var genToken = jwt.sign( { 
+          username: user.username, stocks : user.stocks }, 
+          'secret', {
           expiresIn: "23h"
         });
         var sess = req.session;          

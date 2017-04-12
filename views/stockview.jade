@@ -6,14 +6,15 @@ extends layout
 block content
 	div.bodydiv
 		h2 Stock View Page
+		h2= local_name
+		div#container(style='width:80%; height:400px; margin:auto')
 
 block logout
 	a#logout(href='/users/logout') Logout
 	a#logout(href='/stock/stock') Stock
 	a#logout(href='/stock/stocklist') List
-	a#logout(href='/stock/managemoney') Money
-    
-	#container(style='width:100%; height:400px;')
+	a#logout(href='/stock/managemoney') Money    
+	
 	
 block scripts
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js')
@@ -22,83 +23,88 @@ block scripts
 	script(src="https://code.jquery.com/jquery-3.2.1.min.js")
 	script(src="https://code.highcharts.com/highcharts.js")
 	script(src="https://code.highcharts.com/modules/exporting.js")
-	//script(src="../public/js/stockView.js")
+	script(src='../js/stockViewFunctions1.js')
+	//script(src="../public/js/stockView.js")		
 
 	script.
-		alert('hello');
-		//defining a function
-		function makeChart(){
-			Highcharts.chart('container', {
+		//alert(#{name1});
+		//console.log(!{JSON.stringify(name1)});
+		//console.log(!{JSON.stringify(data1)});
+		var local_data = !{JSON.stringify(data1)};
+		var local_name = !{JSON.stringify(name1)};
+	//- 	//defining a function
+	//- 	function makeChart(){
+	//- 		Highcharts.chart('container', {
 
-				title: {
-					text: 'Solar Employment Growth by Sector, 2010-2016'
-				},
+	//- 			title: {
+	//- 				text: 'Solar Employment Growth by Sector, 2010-2016'
+	//- 			},
 	
-				subtitle: {
-					text: 'Source: thesolarfoundation.com'
-				},
+	//- 			subtitle: {
+	//- 				text: 'Source: thesolarfoundation.com'
+	//- 			},
 		
-				yAxis: {
-					title: {
-						text: 'Number of Employees'
-					}
-				},
-				legend: {
-					layout: 'vertical',
-					align: 'right',
-					verticalAlign: 'middle'
-				},
+	//- 			yAxis: {
+	//- 				title: {
+	//- 					text: 'Number of Employees'
+	//- 				}
+	//- 			},
+	//- 			legend: {
+	//- 				layout: 'vertical',
+	//- 				align: 'right',
+	//- 				verticalAlign: 'middle'
+	//- 			},
 
-				plotOptions: {
-					series: {
-						pointStart: 2010
-					}
-				},
+	//- 			plotOptions: {
+	//- 				series: {
+	//- 					pointStart: 2010
+	//- 				}
+	//- 			},
 
-				series: [{
-					name: 'Installation',
-					data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-				}, {
-					name: 'Manufacturing',
-					data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-				}, {
-					name: 'Sales & Distribution',
-					data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-				}, {
-					name: 'Project Development',
-					data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-				}, {
-					name: 'Other',
-					data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-				}]
+	//- 			series: [{
+	//- 				name: local_name,
+	//- 				data: local_data
+	//- 			}, {
+	//- 				name: 'Manufacturing',
+	//- 				data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+	//- 			}, {
+	//- 				name: 'Sales & Distribution',
+	//- 				data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+	//- 			}, {
+	//- 				name: 'Project Development',
+	//- 				data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+	//- 			}, {
+	//- 				name: 'Other',
+	//- 				data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+	//- 			}]
 
-			});
-		}
+	//- 		});
+	//- 	}
 
-		makeChart();
-		/*$(function)() {
-			var myChart = Highcharts.chart('container',{
-				chart: {
-					type: 'bar'
-				},
-				title: {
-					text: 'Fruit Consumption'
-				},
-				xAxis: {
-					categories: ['Apples', 'Bananas', 'Oranges']
-				},
-				yAxis: {
-					title: {
-						text: 'Fruit eaten'
-					}
-				},
-				series: [{
-					name: 'Jane',
-					data: [1,0,4]
-				}, {
-					name:'John',
-					data:[5,7,3]
-				}]
-			})
-		});
-		*/
+	//- 	makeChart();
+	//- 	/*$(function)() {
+	//- 		var myChart = Highcharts.chart('container',{
+	//- 			chart: {
+	//- 				type: 'bar'
+	//- 			},
+	//- 			title: {
+	//- 				text: 'Fruit Consumption'
+	//- 			},
+	//- 			xAxis: {
+	//- 				categories: ['Apples', 'Bananas', 'Oranges']
+	//- 			},
+	//- 			yAxis: {
+	//- 				title: {
+	//- 					text: 'Fruit eaten'
+	//- 				}
+	//- 			},
+	//- 			series: [{
+	//- 				name: 'Jane',
+	//- 				data: [1,0,4]
+	//- 			}, {
+	//- 				name:'John',
+	//- 				data:[5,7,3]
+	//- 			}]
+	//- 		})
+	//- 	});
+	//- 	*/
