@@ -87,13 +87,28 @@ window.onload = () => {
             },
             plotOptions: {
                 pie: {
-                    allowPointSelect: true,
+                    allowPointSelect: false, //true
                     cursor: 'pointer',
                     dataLabels: {
                         enabled: false
                     },
-                    showInLegend: true
-                }
+                    
+                    showInLegend: true,
+
+                    point:
+                    {
+                        events : 
+                        {
+                            legendItemClick: function(e)
+                            {
+                                e.preventDefault();
+                            }
+                        }
+                    }
+                },
+                
+                    
+                
             },
             series: [{
                 name: 'Brands',

@@ -88,7 +88,7 @@
       } 
       else if (user) 
       {
-        dict = user.stockPercentages;
+          dict = user.stockPercentages;
           
           res.render('managemoney', {dict:dict});
       }
