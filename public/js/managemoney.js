@@ -1,6 +1,9 @@
 window.onload = () => {
+    var form = document.getElementById("myForm");
+    
+    var dict = stockdict;
+
     $(function(){
-        var dict = stockdict;
         var value = 0;
 
         document.getElementById('sliders').innerHTML = "";
@@ -15,18 +18,52 @@ window.onload = () => {
 
         }
 
-        for(var i=0; i < dict.length; i++){
+        for(var i=0; i < dict.length-1; i++){
 
             var myslider = "#" + i;
 
             $(myslider).slider({
+                value: dict[i]['y'],
                 change:function( event, ui) 
                 {   
-                    id = i;
-                    dict[parseInt($(this).attr('id'))]['y'] = $(this).slider( "option", "value" ); 
-                    console.log(this + " " + value);
-                    makeChart(dict);
-                    console.log(dict[parseInt($(this).attr('id'))]['name']);
+                    var myTotal = 0;
+                    var value = $(this).slider( "option", "value" );
+                    for(var i=0; i < dict.length-1; i++)
+                    {
+                        var myslider = "#" + i;
+
+                        
+                        if (dict[parseInt($(this).attr('id'))]['name'] != dict[i]['name'])
+                        {
+                            myTotal += dict[i]['y'];
+                        }
+                        else
+                        {
+                            myTotal += value;
+                        }
+                    }
+
+                    console.log("myTotal is: " + myTotal);
+
+                    if (myTotal <= 100)
+                    {
+                        dict[dict.length-1]['y'] = 100 - myTotal;
+
+                        console.log(dict[dict.length-1]['name'] +" : " +dict[dict.length-1]['y']);
+                        
+                        dict[parseInt($(this).attr('id'))]['y'] = $(this).slider( "option", "value" ); 
+                        console.log("Your value was: " + value);
+                        makeChart(dict);
+                        console.log(dict[parseInt($(this).attr('id'))]['name']);
+
+                        
+                        dict[parseInt($(this).attr('id'))]['y'] = $(this).slider( "option", "value" );
+                    } 
+                    else
+                    {
+                        console.log("You went over 100, chart will not be changed.");
+                        console.log("You're total was: " + myTotal);
+                    }
                     
                 }
             });
@@ -50,22 +87,49 @@ window.onload = () => {
             },
             plotOptions: {
                 pie: {
-                    allowPointSelect: true,
+                    allowPointSelect: false, //true
                     cursor: 'pointer',
                     dataLabels: {
                         enabled: false
                     },
-                    showInLegend: true
-                }
+                    
+                    showInLegend: true,
+
+                    point:
+                    {
+                        events : 
+                        {
+                            legendItemClick: function(e)
+                            {
+                                e.preventDefault();
+                            }
+                        }
+                    }
+                },
+                
+                    
+                
             },
             series: [{
                 name: 'Brands',
                 colorByPoint: true,
                 data: mydict
-            }]
+                }]
             });
+
+
         }
 
         makeChart(dict);
-        });
+    });
+    
+
+    form.addEventListener('submit', function(evt)
+    {
+        var myDict = JSON.stringify(dict);
+
+        console.log('dict being passed: ', myDict);
+
+        document.getElementById('hiddenDict').value = myDict;
+    })
 }

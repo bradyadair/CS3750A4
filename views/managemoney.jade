@@ -11,6 +11,15 @@ block content
 
 		div#sliders(name = "sliders")
 
+		div#form_layout
+			form(action="managemoney", method="post", id="myForm")
+				input#hiddenDict(type='hidden', name='hiddenDict')
+				div.submitdiv
+					div.center
+						input(type="submit" id="submit" value="Submit")
+		br
+		br
+
 block logout
 	a#logout(href='/users/logout') Logout
 	a#logout(href='/stock/stock') Stock
@@ -30,7 +39,6 @@ block scripts
 	meta(name='viewport', content='width=device-width, initial-scale=1')
 	title jQuery UI Slider - Default functionality
 	link(rel='stylesheet', href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
-	link(rel='stylesheet', href='/resources/demos/style.css')
 	script(src='https://code.jquery.com/jquery-1.12.4.js')
 	script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
 	script(type='text/javascript')
