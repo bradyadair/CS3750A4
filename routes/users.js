@@ -153,6 +153,8 @@ router.post('/login', function(req, res) {
         
         myEmail = user.email;
         myUsername = user.username;
+
+        req.session['username'] = user.username;
         
         res.redirect('../stock/stock');
       }
