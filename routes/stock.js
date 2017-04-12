@@ -77,4 +77,18 @@
     res.render('managemoney', {dict:dict});
   });
 
+
+  router.post('/managemoney', function(req, res, next) {
+
+    var sess = req.session;
+    var decodedToken = jwt.verify(sess.token, 'secret');
+
+    console.log("i'm in managemoney post");
+    console.log(req.body.hiddenDict);
+
+    var dict = JSON.parse(req.body.hiddenDict);
+    
+    res.render('managemoney', {dict:dict});
+  });
+
 module.exports = router;

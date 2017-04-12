@@ -1,6 +1,9 @@
 window.onload = () => {
+    var form = document.getElementById("myForm");
+    
+    var dict = stockdict;
+
     $(function(){
-        var dict = stockdict;
         var value = 0;
 
         document.getElementById('sliders').innerHTML = "";
@@ -103,5 +106,15 @@ window.onload = () => {
         }
 
         makeChart(dict);
-        });
+    });
+    
+
+    form.addEventListener('submit', function(evt)
+    {
+        var myDict = JSON.stringify(dict);
+
+        console.log('dict being passed: ', myDict);
+
+        document.getElementById('hiddenDict').value = myDict;
+    })
 }
