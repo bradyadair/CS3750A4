@@ -54,24 +54,24 @@
 
     var dict = [{
                     name: 'Microsoft Internet Explorer',
-                    y: 33.1
+                    y: 10
                 }, {
                     name: 'Chrome',
-                    y: 24.03,
-                    sliced: true,
-                    selected: true
+                    y: 20,
+                    //sliced: true,
+                    //selected: true
                 }, {
                     name: 'Firefox',
-                    y: 10.38
+                    y: 30
                 }, {
                     name: 'Safari',
-                    y: 4.77
+                    y: 0
                 }, {
                     name: 'Opera',
-                    y: 0.91
+                    y: 0
                 }, {
-                    name: 'Proprietary or Undetectable',
-                    y: 0.2
+                    name: 'UnAllocated Stocks',
+                    y: 40
                 }];
     
     res.render('managemoney', {dict:dict});
