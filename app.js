@@ -5,9 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jade = require('jade');
+var hbs = require('express-handlebars');
+var cons = require('consolidate');
 
 
-var User          = require('./models/user');
+var User = require('./models/user');
 
 // added ***************************
 var app = express();
@@ -39,8 +41,11 @@ app.use(session({
 }));
 
 // view engine setup
+app.engine('handlebars', cons.handlebars);
+app.engine('jade', cons.jade);
+app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/' }));
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

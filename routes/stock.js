@@ -27,12 +27,12 @@
   });
   */
 
-  router.get('/stock', function(req, res, next) {
+  router.get('/addStock', function(req, res, next) {
 
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('stock');
+    res.render('stock.jade');
   });
 
   router.get('/stocklist', function(req, res, next) {
@@ -40,7 +40,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('stocklist');
+    res.render('stocklist.jade');
   });
 
     router.get('/stockview', function(req, res, next) {
@@ -48,7 +48,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('stockview');
+    res.render('stockview.jade');
   });
 
     router.get('/managemoney', function(req, res, next) {
@@ -56,7 +56,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('managemoney');
+    res.render('managemoney.jade');
   });
 
 module.exports = router;
