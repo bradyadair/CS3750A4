@@ -72,12 +72,14 @@ window.onload = () => {
 
         //defining a function
         function makeChart(mydict){
+
             Highcharts.chart('container', {
             chart: {
-                plotBackgroundColor: null,
+                plotBackgroundColor: "#b3e6cc",
                 plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
+                plotShadow: true,
+                type: 'pie',
+                backgroundColor: "#ffffff"
             },
             title: {
                 text: 'Browser market shares January, 2015 to May, 2015'
@@ -87,14 +89,14 @@ window.onload = () => {
             },
             plotOptions: {
                 pie: {
-                    allowPointSelect: true, //true
+                    allowPointSelect: false, //true
                     cursor: 'pointer',
                     dataLabels: {
-                enabled: true,
-                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                style: {
-                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                }
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
             
                     },
                     
