@@ -3,18 +3,31 @@ window.onload = () => {
     
     var dict = stockdict;
 
+    //used to find unused funds percentage on page load.
+    var startingReserveFunds = 0;
+    for(var i=0; i < dict.length-1; i++)
+    {
+            startingReserveFunds += dict[i]['y'];
+ 
+    }
+    startingReserveFunds = 100-startingReserveFunds;
+    dict[dict.length-1]['y'] = startingReserveFunds;
+
+    dict[dict.length-1]['sliced']='true';
+    dict[dict.length-1]['selected']='true';
+
     $(function(){
         var value = 0;
 
         document.getElementById('sliders').innerHTML = "";
     
-        for(var i=0; i < dict.length; i++){
+        for(var i=0; i < dict.length-1; i++){
             //$("#sliders").innerHTML($('div', { id: 'slider' + i, 'class' : 'ansbox'}))
 
             console.log("<div id = \"slider" + i + "\" >  </div>");
 
 
-            document.getElementById('sliders').innerHTML += "<div id = \"" + i + "\", value = \"" + dict[i]['name'] + "\">  </div> </br>";
+            document.getElementById('sliders').innerHTML += "<h1> "+dict[i]['name']+ "</h1><div id = \"" + i + "\", value = \"" + dict[i]['name'] + "\">  </div> </br>";
 
         }
 
@@ -80,7 +93,7 @@ window.onload = () => {
                 type: 'pie'
             },
             title: {
-                text: 'Browser market shares January, 2015 to May, 2015'
+                text: 'Percentages of Money Placed In Stocks'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
