@@ -524,12 +524,12 @@ textarea:focus {
 }
 
 .stockList {
-	position: absolute;
+	position: relative;
     visibility: visible;
     outline: 0px;
-    margin: 0px;
+    margin: 0 auto;
     padding: 0px;
-    text-align: left;
+    text-align: center;
     font-size: 26px;
     font-family: sans-serif;
     background-color: rgb(255, 255, 255);
@@ -544,6 +544,8 @@ textarea:focus {
     left: 0px;
     top: 100%;
     max-height: 448.333px;
+    width: 300px;
+    margin-top: 50px;
 
 }
 
