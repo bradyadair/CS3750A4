@@ -2,6 +2,8 @@ window.onload = () => {
     var form = document.getElementById("myForm");
     
     var dict = stockdict;
+    
+    //var value = 0;
 
     //used to find unused funds percentage on page load.
     var startingReserveFunds = 0;
@@ -37,6 +39,8 @@ window.onload = () => {
 
             $(myslider).slider({
                 value: dict[i]['y'],
+                text: dict[i]['y'],
+                
                 change:function( event, ui) 
                 {   
                     var myTotal = 0;
@@ -71,15 +75,27 @@ window.onload = () => {
 
                         
                         dict[parseInt($(this).attr('id'))]['y'] = $(this).slider( "option", "value" );
+
+                        $(this).find(".ui-slider-handle").text(value);
                     } 
                     else
                     {
+
+                        $(this).slider("option", "value", value- (myTotal-100));
                         console.log("You went over 100, chart will not be changed.");
                         console.log("You're total was: " + myTotal);
                     }
                     
-                }
+                    
+                },
+                slide: function() {
+                    var value = $(this).slider("option","value");
+                    
+                    $(this).find(".ui-slider-handle").text(value);
+                },
             });
+
+            $(myslider).find(".ui-slider-handle").text(dict[i]['y']);
         }
         
 
