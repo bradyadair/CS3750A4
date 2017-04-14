@@ -10,5 +10,9 @@ module.exports = mongoose.model('User', new Schema({
   messages:  [{ 
     content: { type: String },
     date: { type: Date, default: Date.now }
+  }],
+  stockPercentages: [{
+      name: {type:String},
+      y: {type:Number}
   }]
 }));
