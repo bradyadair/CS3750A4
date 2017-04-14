@@ -89,6 +89,8 @@
       else if (user) 
       {
           dict = user.stockPercentages;
+
+          dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
           
           res.render('managemoney', {dict:dict});
       }
