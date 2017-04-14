@@ -12,9 +12,7 @@ module.exports = mongoose.model('User', new Schema({
     percentage: {type: Number},
     purchase_price: {type: Number}
   }],
-  watchlist: [{
-    ticker:{type: String}
-  }],
+  watchlist: [{tpye: String, default: ""}],
   messages:  [{ 
     content: { type: String },
     date: { type: Date, default: Date.now }

@@ -7,5 +7,32 @@ function displayWatchList(finalHtml)
     stockList.innerHTML += "</div>";    
 }
 
+function inputTicker () {
+    //event.preventDefault();
+    var ticker = $(this).attr('id');
+    $.ajax({
+        method: "POST",
+        url: "/stock/stocklist",
+        data: {"type": 'input',
+                "ticker": ticker},
+        success: function(result) {}
+    });
+}
 
-// Need a function to remove the row from the list and post back to db removing the ticker
+
+
+function init() {
+
+    function removeTicker() {
+        var ticker = $(this).attr('id');
+        $.ajax({
+            method: "POST",
+            url: "/stock/stocklist",
+            data: {"type": 'remove',
+                    "ticker": ticker},
+            success: function(result) {}
+        });
+    }
+
+}
+$(document).on('ready', init);

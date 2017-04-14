@@ -5,7 +5,13 @@ extends layout
 block content
 	div.bodydiv
 		h2 Stock List Page
+	div#stockInputDiv.stockInputDiv
+		form(id='stockInput-form', class = stockInputForm, method='POST', action='')
+			| Stock Symbol
+			input#stockInput.stockInputBox(type='text', placeholder='Enter a stock to track')
+			button#stockInput.btn(type='submit', onlick='inputTicker()') Track
 	div#stocklist.stock_data
+
 
 block logout
 	a#logout(href='/users/logout') Logout
@@ -16,6 +22,9 @@ block logout
 block scripts
 	script(type='text/javascript')
 		| var finalHtml =!{JSON.stringify(stockHtml)};
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
 	script(src='/scripts/watchlist.js') 
 	script(type='text/javascript').
 		displayWatchList(finalHtml);
+
+
