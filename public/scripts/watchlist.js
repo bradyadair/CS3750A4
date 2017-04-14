@@ -34,5 +34,6 @@ function init() {
         });
     }
 
+    $(getElementByName("removebtn")).on('click', removeTicker);
 }
 $(document).on('ready', init);
