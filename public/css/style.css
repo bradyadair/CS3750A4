@@ -555,3 +555,40 @@ textarea:focus {
     outline: 0px;
 
 }
+
+.search {
+	color: white;
+}
+
+.searchStocks {
+	margin-top: 100px;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+   color: lightslategray;
+}
+:-moz-placeholder {
+   font-style: italic; 
+   color: lightslategray;
+}
+::-moz-placeholder {
+   font-style: italic; 
+   color: lightslategray; 
+}
+:-ms-input-placeholder {  
+   font-style: italic;
+   color: lightslategray;
+}
+
+#mySearch {
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	padding: 3px 10px 3px 10px;
+}
+
+
+#mySearch:hover {
+	border: 2px solid lime;
+	
+}

@@ -1,12 +1,12 @@
 block variables
-	title Stock | Stock Page
+	title Stock | Add Stock Page
 extends layout
 
 block content
 	div.bodydiv
-		h2 Stock Page
-
-		input.awesomplete#mySearch
+		h2 Add Stock Page
+		div.searchStocks 
+			input.awesomplete#mySearch(placeholder="Search stocks here...")
 
 		//div.stockList
 			div.stock
@@ -34,4 +34,6 @@ block logout
 
 block scripts
 	script(src="https://rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.min.js")
+	script(src="/js/nasdaq.js")
+	script(src="/js/nyse.js")
 	script(src="/js/autoComplete.js")

@@ -32,19 +32,49 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    var request = require("request");
+    var yahooFinance = require('yahoo-finance');
 
-    var stock_url = "http://finance.yahoo.com/webservice/v1/symbols/FB/quote?format=json&view=%E2%80%8C%E2%80%8Bdetail";
+    /*var fs = require('fs');
+    var array = fs.readFileSync('files/NASDAQ.txt').toString().split("\n");
+    for(i in array) {
+        console.log(array[i]);
+    }*/
 
-    request(stock_url, function (error, response, body) { 
-        if (!error && response.statusCode == 200) {  
-            var stock_data = body;
-            console.log("Yahoo Finance API: ", stock_data)
-            var stock_price = stock_data.list.resources[0].resource.fields.price;
-            console.log("stock_price: ", stock_price);       
-        };
+    /*var fs = require('fs');
+    var readline = require('readline');
+
+    var filename = 'public/files/NASDAQ.txt';
+    readline.createInterface({
+        input: fs.createReadStream(filename),
+        terminal: false
+    }).on('line', function(line) {
+
+      console.log('Line: ' + line);
+*/
+    yahooFinance.historical({
+      symbol: 'AAPL',
+      from: '2012-01-01',
+      to: '2012-01-05',
+      // period: 'd'  // 'd' (daily), 'w' (weekly), 'm' (monthly), 'v' (dividends only)
+    }, function (err, quotes) {
+      //...
+      console.log(quotes);
+      var fs = require('fs');
+      var readline = require('readline');
+      
+
+      //console.log(symbols["IBM"].name);
+      /*var filename = 'public/files/NASDAQ.txt';
+      readline.createInterface({
+          input: fs.createReadStream(filename),
+          terminal: false
+      }).on('line', function(line) {
+
+          console.log('Line: ' + line);
+          res.render('stock.jade', {quotesList: quotes});
+      });*/
+      res.render('stock.jade', {quotesList: quotes});
     });
-    res.render('stock.jade');
   });
 
   router.get('/stocklist', function(req, res, next) {
