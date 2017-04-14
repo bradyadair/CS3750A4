@@ -6,7 +6,7 @@ block content
 	div.bodydiv
 		h2 Add Stock Page
 		div.searchStocks 
-			input.awesomplete#mySearch(placeholder="Search stocks here...")
+			input.awesomplete(id="mySearch" placeholder="Search stocks here...")
 			br
 			button(name="submit" id="addStockFinal") Add Stock
 
@@ -39,3 +39,4 @@ block scripts
 	script(src="/js/nasdaq.js")
 	script(src="/js/nyse.js")
 	script(src="/js/autoComplete.js")
+	script(src="/js/addStock.js")

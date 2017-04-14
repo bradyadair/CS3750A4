@@ -4,6 +4,7 @@
   var session = require('express-session');
   var jwt     = require('jsonwebtoken');
   var router  = express.Router();
+  var User = require('../models/user.js');
 
   router.all('*', (req, res, next)=>{
       //check if token exists
@@ -82,9 +83,9 @@
     var query = { _id: id };
     var newStock = req.body.stock;
 
-    Question.findOneAndUpdate(query, {$set:{answer: newAnswer}})
-        .then(function(question){
-            res.status(200).json(question);
+    User.findOneAndUpdate(query, {$set:{stocks: {symbol: newStock, amount: 0}}})
+        .then(function(stock){
+            res.status(200).json(stock);
         })
         .catch(function(err){
             return res.status(500).json(err);
