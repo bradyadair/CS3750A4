@@ -77,9 +77,20 @@
     });
   });
 
-  /*router.patch('/addStock', function(req, res, next) {  WORKING ON PATCH TO DB TO ADD STOCKWS
+  router.patch('/addStock', function(req, res, next) { 
+    var id = req.params.id;
+    var query = { _id: id };
+    var newStock = req.body.stock;
+
+    Question.findOneAndUpdate(query, {$set:{answer: newAnswer}})
+        .then(function(question){
+            res.status(200).json(question);
+        })
+        .catch(function(err){
+            return res.status(500).json(err);
+        })
     
-  });*/
+  });
 
   router.get('/stocklist', function(req, res, next) {
 
