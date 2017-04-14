@@ -58,7 +58,7 @@ function init() {
 
         $.ajax({
             url: '../stock/addStock',
-            type: 'PATCH',
+            type: 'POST',
             contentType: 'application/json',
             dataType: 'json',
             data: JSON.stringify(patchData),
@@ -67,13 +67,13 @@ function init() {
                 console.log("created");
                 window.location = '../stock/addStock';
             },
-            error: function(err) { //On Error will need to popup banner that there was an error.
+            /*error: function(err) { //On Error will need to popup banner that there was an error.
                 if(err.responseJSON.message == "You are already following this stock"){
                     document.getElementById("question").value = "";
                     document.getElementById("question").style = "background-color:#99ff99";
                     document.getElementById("question").placeholder = "Stock has been added already";
                 }
-            }
+            }*/
         });
     }
 

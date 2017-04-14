@@ -35,23 +35,6 @@
     
     var yahooFinance = require('yahoo-finance');
 
-    /*var fs = require('fs');
-    var array = fs.readFileSync('files/NASDAQ.txt').toString().split("\n");
-    for(i in array) {
-        console.log(array[i]);
-    }*/
-
-    /*var fs = require('fs');
-    var readline = require('readline');
-
-    var filename = 'public/files/NASDAQ.txt';
-    readline.createInterface({
-        input: fs.createReadStream(filename),
-        terminal: false
-    }).on('line', function(line) {
-
-      console.log('Line: ' + line);
-*/
     yahooFinance.historical({
       symbol: 'AAPL',
       from: '2012-01-01',
@@ -62,23 +45,30 @@
       console.log(quotes);
       var fs = require('fs');
       var readline = require('readline');
-      
 
-      //console.log(symbols["IBM"].name);
-      /*var filename = 'public/files/NASDAQ.txt';
-      readline.createInterface({
-          input: fs.createReadStream(filename),
-          terminal: false
-      }).on('line', function(line) {
-
-          console.log('Line: ' + line);
-          res.render('stock.jade', {quotesList: quotes});
-      });*/
       res.render('stock.jade', {quotesList: quotes});
     });
   });
 
-  router.patch('/addStock', function(req, res, next) { 
+  /*function doesStockExist(stock, fn) {
+      User.findOne({
+              stock: stock.toLowerCase()
+          },
+          function(err, q) {
+              if (q) {
+                  return fn(null, q)
+              } else {
+
+                  return fn(new Error('gtg'));
+              }
+          });
+  }*/
+
+ // POST OR PATCH ??? WORKING ON IT
+
+  /*router.post('/addStock', function(req, res, next) { 
+    
+    var stock = req.body.stock;
     var id = req.params.id;
     var query = { _id: id };
     var newStock = req.body.stock;
@@ -90,9 +80,9 @@
         .catch(function(err){
             return res.status(500).json(err);
         })
-    
-  });
-
+    });
+  */
+  
   router.get('/stocklist', function(req, res, next) {
 
     var sess = req.session;
