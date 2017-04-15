@@ -2,25 +2,34 @@ function init() {
 
     function checkInput() {
 
-        var stock = document.getElementById("mySearch");
-        var submitOk = true;
+        var errors = [];
+        var stock = document.getElementById("mySearch").value;
+        //var submitOk = true;
 
-        if (stock.value === "") {
-            submitOk = false;
+        if (stock.trim() === "") {
+            //submitOk = false;
             question.style = "background-color:#99ff99";
             question.placeholder = "Required";
-        }
-        if (stock.value === "Search stocks here...") {
-            submitOk = false;
-            answer.style = "background-color:#99ff99";
-            answer.placeholder = "Required";
+            errors.push("No stock entered");
         }
 
-        if (submitOk) {
+        if (!symbolExists(stock)) {
+            //submitOk = false;
+            question.style = "background-color:#99ff99";
+            question.placeholder = "Please enter a valid stock";
+            errors.push("Not a valid stock");
+        }
+
+        if (errors.length == 0) {
             addStock();
         }
 
     }
+
+    function symbolExists(id){
+        return (symbols[id] !== null);     
+    }
+
     function modalDisplay(){
         var modal = document.getElementById('myModal');
         //var span = document.getElementsByClassName("close")[0];
@@ -48,7 +57,7 @@ function init() {
         //var categoryInput = $('#category').val();
         //var questionInput = $('#question').val();
         //var answerInput = $('#answer').val();
-        var stockInput = document.getElementById("mySearch").value;
+        var stockInput = document.getElementById("mySearch").value.trim();
 
         var patchData = {
                 stock: stockInput,
@@ -57,7 +66,7 @@ function init() {
         console.log(patchData);
 
         $.ajax({
-            url: '../stock/addStock',
+            url: '../stock/stocks',
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',

@@ -50,27 +50,11 @@
     });
   });
 
-  /*function doesStockExist(stock, fn) {
-      User.findOne({
-              stock: stock.toLowerCase()
-          },
-          function(err, q) {
-              if (q) {
-                  return fn(null, q)
-              } else {
-
-                  return fn(new Error('gtg'));
-              }
-          });
-  }*/
-
- // POST OR PATCH ??? WORKING ON IT
-
-  /*router.post('/addStock', function(req, res, next) { 
+  router.post('/stocks', function(req, res, next) { 
     
-    var stock = req.body.stock;
-    var id = req.params.id;
-    var query = { _id: id };
+    var sess = req.session;
+    var userId = sess.userId;
+    var query = { _id: userId };
     var newStock = req.body.stock;
 
     User.findOneAndUpdate(query, {$set:{stocks: {symbol: newStock, amount: 0}}})
@@ -81,7 +65,7 @@
             return res.status(500).json(err);
         })
     });
-  */
+  
   
   router.get('/stocklist', function(req, res, next) {
 
