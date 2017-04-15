@@ -54,19 +54,31 @@
     
     var sess = req.session;
     var userId = sess.userId;
-    var query = { _id: userId };
     var newStock = req.body.stock;
 
-    User.findOneAndUpdate(query, {$set:{stocks: {symbol: newStock, amount: 0}}})
-        .then(function(stock){
+    var s = {symbol: newStock, amount: 0};
+
+    User.findOneAndUpdate({_id: userId },{$push: { stocks : s }},{upsert:true, safe:true})
+        .then(function(stock) { 
             res.status(200).json(stock);
         })
         .catch(function(err){
+            console.log(err);
             return res.status(500).json(err);
         })
     });
-  
-  
+
+    /*User.update({_id: userId },
+            {$push: { stocks : s }}, function(err, stock) {
+              if (err) {
+                  return res.status(500).json(err);
+              } else {
+                  res.status(200).json(stock);
+              }
+    }); */
+
+  //});   
+    
   router.get('/stocklist', function(req, res, next) {
 
     var sess = req.session;
