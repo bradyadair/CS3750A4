@@ -90,7 +90,20 @@
       {
           dict = user.stockPercentages;
 
-          dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+/*
+          //used for deleting a specific item from the array
+          for (var i = 0; i<dict.length; i++)
+          {
+            if (dict[i]['name'] == 'Microsoft Internet Explorer')
+            {
+              dict.splice(i, 1);
+            }
+          }
+          */
+
+          //used for adding an item to the beginning of the array
+          //dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+          //dict.unshift({name: 'Walmart',y: 10});
           
           res.render('managemoney', {dict:dict});
       }
