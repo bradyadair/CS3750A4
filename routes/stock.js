@@ -32,8 +32,10 @@
 
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
-    
-    var yahooFinance = require('yahoo-finance');
+
+    res.render('stock.jade');
+  });
+    /*var yahooFinance = require('yahoo-finance');
 
     yahooFinance.historical({
       symbol: 'AAPL',
@@ -48,7 +50,7 @@
 
       res.render('stock.jade', {quotesList: quotes});
     });
-  });
+  });*/
 
   router.post('/stocks', function(req, res, next) { 
     
