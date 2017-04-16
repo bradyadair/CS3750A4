@@ -33,7 +33,7 @@ function init() {
     function modalDisplay(){
         var modal = document.getElementById('myModal');
         //var span = document.getElementsByClassName("close")[0];
-        var delayMillis = 2000; //2 second
+        var delayMillis = 1000; //1 second
         
         //open the modal 
         modal.style.display = "block";
@@ -72,9 +72,9 @@ function init() {
             dataType: 'json',
             data: JSON.stringify(patchData),
             success: function(data, textStatus, jqXHR) {
-                //modalDisplay();
+                modalDisplay();
                 console.log("created");
-                window.location = '../stock/addStock';
+                //window.location = '../stock/addStock';
             },
             /*error: function(err) { //On Error will need to popup banner that there was an error.
                 if(err.responseJSON.message == "You are already following this stock"){
