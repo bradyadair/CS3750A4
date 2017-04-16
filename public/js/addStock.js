@@ -3,25 +3,29 @@ function init() {
     function checkInput() {
 
         var errors = [];
-        var stock = document.getElementById("mySearch").value;
-        //var submitOk = true;
+        var stock = document.getElementById("mySearch");
+        var submitOk = true;
 
-        if (stock.trim() === "") {
-            //submitOk = false;
-            question.style = "background-color:#99ff99";
-            question.placeholder = "Required";
+        if (stock.value.trim() === "") {
+            submitOk = false;
+            stock.style = "background-color:lightyellow";
+            stock.placeholder = "Required";
             errors.push("No stock entered");
         }
 
         if (!symbolExists(stock)) {
-            //submitOk = false;
-            question.style = "background-color:#99ff99";
-            question.placeholder = "Please enter a valid stock";
+            submitOk = false;
+            stock.style = "background-color:lightyellow";
+            stock.placeholder = "Please enter a valid stock";
             errors.push("Not a valid stock");
         }
 
-        if (errors.length == 0) {
+        if (submitOk) {
+            console.log(errors);
             addStock();
+        }
+        else {
+            console.log(errors);
         }
 
     }
