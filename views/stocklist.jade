@@ -8,11 +8,21 @@ block content
 	div#stockInputDiv.stockInputDiv
 		if error
 			p.error ERROR: #{error}
+		form(id='stockRemove-form', type='hidden', method='POST', action='')
+			input#hiddenRemStatus(type='hidden', name='hiddenStatus')
+			input#hiddenRemTicker(type='hidden', name='hiddenTicker')
 		form(id='stockInput-form', class = 'stockInputForm', method='POST', action='')
 			| Stock Symbol
-			input#stockInput.stockInputBox(type='text', placeholder='Enter a stock to track')
-			input#hiddenStatus(type='hidden', name='hiddenStatus')
-			input#hiddenTicker(type='hidden', name='hiddenTicker')
+			input#hiddenInStatus(type='hidden', name='hiddenStatus')
+			input#hiddenInTicker(type='hidden', name='hiddenTicker')
+			input.awesomplete(id="mySearch" placeholder="Enter Stock Ticker")
+			div.modal#myModal
+				div.modal-content
+					span Stock successfully added!
+			//- input#stockInput.awesomplete(type='text', placeholder='Enter a stock to track')
+			//- div.modal#myModal
+			//- 	div.modal-content
+			//- 		span Stock successfully added!
 			button#stockInput.btn(type='submit', onlick='inputTicker()') Track
 	div#stocklist.stock_data
 
@@ -29,7 +39,7 @@ block scripts
 		| var sflag =!{JSON.stringify(sflag)};
 		| var tick = !{JSON.stringify(tick)};
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-	script(src='/scripts/watchlist.js') 
+	script(src='/js/watchlist.js') 
 	script(type='text/javascript').
 		displayWatchList(finalHtml);
 	script(src="https://rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.min.js")

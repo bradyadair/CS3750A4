@@ -62,8 +62,6 @@ router.get('/stocklist', function (req, res, next) {
     } else {
 
       // gets the users tickers and puts them in an array, was doing this because it used a different collection in db before but now its its own with watchlist
-      var tickers = [];
-      tickers.push(user.watchlist);
       var n = user.watchlist.length;
       // start of html string to concatonate and pass as final html string
       var finalHtml = "<Table class='stocktable'><tr><th class='stockLabel'>Stock Name</th><th class='stockLabel'>Ticker</th><th class='stockLabel'>Open Price</th><th class='stockLabel'>Current Price</th><th class='stockLabel'>Status</th><th class='stockLabel'></th></tr>"
@@ -73,24 +71,19 @@ router.get('/stocklist', function (req, res, next) {
       count = 0;
       var flag = "";
       var tick = "";
+      console.log("\nSize of watchlist: " + n);
 
-            
-      if( n < 1 ){
-        res.render('stocklist', { stockHtml: finalHtml , sflag:flag, tick:tick});
+      if (n < 1) {
+        res.render('stocklist', { stockHtml: finalHtml, sflag: flag, tick: tick });
       }
 
-
-      // add each ticker to tickers for copy with new reference
-      // for (var i = 0; i < n; i++) {
-      //   tickers.push(user.watchlist[i]);
-      // }
-      console.log("\nFound tickers: " + tickers + "\n");
+      console.log("\nFound tickers: " + user.watchlist + "\n");
 
       // function queries yahoo for financial data and appends to html variables to pass through the render and use on users page
-      function yahooFunct(finalHtml, tempHtml, tickers, status, flag, tick, math, count, n, res) {
+      function yahooFunct(finalHtml, tempHtml, status, flag, tick, math, count, n, res) {
         for (var i = 0; i < n; i++) {
           yahooFinance.snapshot({
-            symbol: tickers[i],
+            symbol: user.watchlist[i],
             fields: ['s', 'n', 'o', 'l1']
           }, function (err, snapshot) {
             if (err) {
@@ -99,7 +92,7 @@ router.get('/stocklist', function (req, res, next) {
             }
             if (!snapshot) {
               // change it so renders error on page
-              res.render('stocklist', { error: "Didnt find the users stock: " +ticker[i] });
+              res.render('stocklist', { error: "Didnt find the users stock: " + ticker[i] });
             }
             else {
               math = Number(snapshot.open) - Number(snapshot.lastTradePriceOnly);
@@ -114,17 +107,16 @@ router.get('/stocklist', function (req, res, next) {
               }
 
               tempHtml += "<tr class='stockListRow'>";
-              tempHtml += "<td class='stockColumn'>" + snapshot.name + "</td><td class='stockColumn'>" + snapshot.symbol + "</td><td class='stockColumn'>$" + snapshot.open + "</td><td class='stockColumn'>$" 
-                          + snapshot.lastTradePriceOnly + "</td><td class='stockColumn'>" + status + "</td><td class='stockColumn'><a href='#' id='"+tickers[i]+"' name='removebtn' class='btn btn-red'>Remove</a></td>";
+              tempHtml += "<td class='stockColumn'>" + snapshot.name + "</td><td class='stockColumn'>" + snapshot.symbol + "</td><td class='stockColumn'>$" + snapshot.open + "</td><td class='stockColumn'>$"
+                + snapshot.lastTradePriceOnly + "</td><td class='stockColumn'>" + status + "</td><td class='stockColumn'><a href='#' id='removebtn' data-id='" + snapshot.symbol + "' name='removebtn' class='btn btn-red'>Remove</a></td>";
               tempHtml += "</tr>";
               console.log(tempHtml);
               count += 1;
-              console.log("Count : " + count);
+              console.log("\nCount : " + count);
               // The query isnt syncing well so this is sort of a work around to wait to render the page
               // We may want a better solution
-              if(count == n)
-              {
-                finishHtml(count, tempHtml, finalHtml, flqt, tick, res);
+              if (count == n) {
+                finishHtml(count, tempHtml, finalHtml, flag, tick, res);
               }
             }
           });
@@ -134,15 +126,15 @@ router.get('/stocklist', function (req, res, next) {
       // made this function to delay rendering page because the query for financial data needs a promise, crude workaround
       function finishHtml(count, tempHtml, finalHtml, flag, tick, res) {
         console.log("-- In finishHtml");
-        console.log("Final Count : " + count);
+        console.log("Final Count : " + count + "\n");
         finalHtml += tempHtml;
         finalHtml += "</table>";
 
-        res.render('stocklist', { stockHtml: finalHtml , sflag:flag, tick:tick});
+        res.render('stocklist', { stockHtml: finalHtml, sflag: flag, tick: tick });
       }
-      
+
       // this is where the functions above actually start getting called, did it last so their vars are declared and instantiated
-      yahooFunct(finalHtml, tempHtml, tickers, status, flag, tick, math, count, n, res);
+      yahooFunct(finalHtml, tempHtml, status, flag, tick, math, count, n, res);
     }
   });
 });
@@ -151,21 +143,35 @@ router.get('/stocklist', function (req, res, next) {
 //  TO DO
 
 router.post('/stocklist', function (req, res, next) {
-    // TO DO
-    // Delete the selected ticker from watchlist in user
-    // redirect to /stock/stocklist
+  // TO DO
+  // Delete the selected ticker from watchlist in user
+  // redirect to /stock/stocklist
   var sess = req.session;
   var decodedToken = jwt.verify(sess.token, 'secret');
   var name = decodedToken.username.replace(" ", "");      // THIS IS HOW WE HAVE TO GET THE USERNAME, NOTE: MUST USE THE REPLACE CASUE WHITESPACE
 
-  console.log("I'm in stockview post");
-  console.log(req.body.hiddenStatus);
-  var status = JSON.parse(req.body.hiddenStatus);
-  console.log("here's my Status after parsed: " + status);
-  console.log(req.body.hiddenTicker);
-  var ticker = JSON.parse(req.body.hiddenTicker).replace(" ", "").toUpperCase();
-  console.log("here's my Ticker after parsed: " + ticker);
-  
+  console.log("\nI'm in stockview post");
+  var statusFlag = "";
+  var ticker = "";
+
+  // something got fucked up with json parsing
+  if (req.body.hiddenRemStatus == '"remove"'){
+    satusFlag = JSON.parse(req.body.hiddenRemStatus);
+    ticker = JSON.parse(req.body.hiddenRemTicker).replace(" ", "").toUpperCase();
+    console.log("here's my Status after parsed: " + satusFlag);
+    console.log("here's my Ticker after parsed: " + ticker);
+  }
+  else if(req.body.hiddenInStatus == '"input"'){
+    satusFlag = JSON.parse(req.body.hiddenInStatus);
+    ticker = JSON.parse(req.body.hiddenInTicker).replace(" ", "").toUpperCase();
+    console.log("here's my Status after parsed: " + satusFlag);
+    console.log("here's my Ticker after parsed: " + ticker);
+  }
+  else{
+    statusFlag = "";
+    ticker = "";
+  }
+
   User.findOne({
     username: name
   }, function (err, user) {
@@ -174,41 +180,46 @@ router.post('/stocklist', function (req, res, next) {
     if (!user) {
       res.render('error.jade', { error: "Didnt find the user" });
     } else {
-      yahooFinance.snapshot({
-        symbol: ticker,
-        fields: ['s']
-      }, function (err, snapshot) {
-        if (err) {
-          console.log(err);
-          next(err);
-        }
-        if (!snapshot) {
-          // change it so renders error on page
-          res.render('stocklist', { error: "Stock Ticker Was Not Found" });
-        }
-        else {
-          if (status == 'input') {
-            // add item
-            console.log("In stocklist post status = input");
-            User.findOneAndUpdate({ username: name }, { $push: { watchlist: ticker } }, { upsert: true, safe: true })
-              .then(function (stock) {
-                res.status(200).json(stock);
-              })
-              .catch(function (err) {
-                console.log(err);
-                return res.status(500).json(err);
-              })
+      console.log("Ticker: " + ticker + " \nStatus: " + satusFlag);
+
+      if (satusFlag == "input") {
+        yahooFinance.snapshot({
+          symbol: ticker,
+          fields: ['s']
+        }, function (err, snapshot) {
+          if (err) {
+            console.log(err);
+            next(err);
           }
-          else if (status == 'remove') {
-            // remove item
-            console.log("In stocklist post status = remove");
+          if (!snapshot) {
+            // change it so renders error on page
+            res.render('stocklist', { error: "Stock Ticker Was Not Found" });
           }
-          else {
-            //handle some error and render
-          }
-          res.redirect('/stock/stocklist');
-        }
-      });
+        });
+        // add item
+        console.log("\nIn stocklist post status = input");
+        User.findOneAndUpdate({ username: name }, { $push: { watchlist: ticker } }, { upsert: true, safe: true })
+          .then(function (stock) {
+            res.status(200).json(stock);
+          })
+          .catch(function (err) {
+            console.log(err);
+            return res.status(500).json(err);
+          })
+      }
+      else if (satusFlag == "remove") {
+        // remove item
+        console.log("\nIn stocklist post status = remove");
+        User.findOneAndUpdate({ username: name }, { $pull: { watchlist: ticker } }, { upsert: true, safe: true })
+          .then(function (stock) {
+            res.status(200).json(stock);
+          })
+          .catch(function (err) {
+            console.log(err);
+            return res.status(500).json(err);
+          })
+      }
+      res.redirect('/stocklist');
     }
   });
 });
