@@ -8,13 +8,16 @@ function init() {
 
         if (stock.value.trim() === "") {
             submitOk = false;
+            
             stock.style = "background-color:lightyellow";
             stock.placeholder = "Required";
             errors.push("No stock entered");
         }
 
-        if (!symbolExists(stock)) {
+        else if (!symbolExists(stock.value)) {
             submitOk = false;
+
+            stock.value = "";
             stock.style = "background-color:lightyellow";
             stock.placeholder = "Please enter a valid stock";
             errors.push("Not a valid stock");
@@ -31,7 +34,7 @@ function init() {
     }
 
     function symbolExists(id){
-        return (symbols[id] !== null);     
+        return (symbols[id] !== undefined);     
     }
 
     function modalDisplay(){
