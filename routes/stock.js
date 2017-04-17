@@ -58,7 +58,7 @@
     var userId = sess.userId;
     var newStock = req.body.stock;
 
-    var s = {symbol: newStock, amount: 0};
+    var s = {name: newStock, y: 0};
 
     User.findOneAndUpdate({_id: userId },{$push: { stocks : s }},{upsert:true, safe:true})
         .then(function(stock) { 
