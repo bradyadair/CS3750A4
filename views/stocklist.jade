@@ -4,24 +4,34 @@ extends layout
 
 block content
 	div.bodydiv
-		h2 Stock List Page	
-	div#stockInputDiv.stockInputDiv
-		if error
-			p.error ERROR: #{error}
-			
-		form(id='stockRemove-form', type='hidden', method='POST', action='')
-			input#hiddenRemStatus(type='hidden', name='hiddenStatus')
-			input#hiddenRemTicker(type='hidden', name='hiddenTicker')
-		form(id='stockInput-form', class = 'stockInputForm', method='POST', action='')
-			| Stock Symbol
-			input#hiddenInStatus(type='hidden', name='hiddenStatus')
-			input#hiddenInTicker(type='hidden', name='hiddenTicker')
-			input#stockInput.awesomplete(type='text', placeholder='Enter a stock to track')
+		h2 Stock List Page
+		div.searchStocks 
+			input.awesomplete(id="mySearch" placeholder="Search stocks here...")
+			br
 			div.modal#myModal
 				div.modal-content
 					span Stock successfully added!
-			button#stockInput.btn(type='submit', onlick='inputTicker()') Track
-	div#stocklist.stock_data
+			br
+			button(name="submit" id="addStockFinal") Add Stock	
+	//- div#stockInputDiv.stockInputDiv
+	//- 	if error
+	//- 		p.error ERROR: #{error}
+			
+	//- 	form(id='stockRemove-form', type='hidden', method='POST', action='')
+	//- 		input#hiddenRemStatus(type='hidden', name='hiddenStatus')
+	//- 		input#hiddenRemTicker(type='hidden', name='hiddenTicker')
+	//- 	form(id='stockInput-form', class = 'stockInputForm', method='POST', action='')
+	//- 		| Stock Symbol
+	//- 		input#hiddenInStatus(type='hidden', name='hiddenStatus')
+	//- 		input#hiddenInTicker(type='hidden', name='hiddenTicker')
+			//- div.searchStocks 
+			//- input.awesomplete(id="mySearch" placeholder="Search stocks here...")
+			//- br
+			//- div.modal#myModal
+			//- 	div.modal-content
+			//- 		span Stock successfully added!
+			//- button#stockInput.btn(type='submit') Track
+	//- div#stocklist.stock_data
 
 
 block logout
@@ -39,9 +49,9 @@ block scripts
 	script(src='/js/watchlist.js') 
 	script(type='text/javascript').
 		displayWatchList(finalHtml);
+	script(src="/js/addStock.js")
 	script(src="https://rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.min.js")
 	script(src="/js/nasdaq.js")
 	script(src="/js/nyse.js")
 	script(src="/js/autoComplete.js")
-
 
