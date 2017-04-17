@@ -112,7 +112,7 @@ li #logo:hover {
 }
 
 ul {
-	position: relative;
+	position: fixed;
 	top: 10px;
 	width: 98%;
     list-style-type: none;

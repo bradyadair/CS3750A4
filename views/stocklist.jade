@@ -4,10 +4,11 @@ extends layout
 
 block content
 	div.bodydiv
-		h2 Stock List Page
+		h2 Stock List Page	
 	div#stockInputDiv.stockInputDiv
 		if error
 			p.error ERROR: #{error}
+			
 		form(id='stockRemove-form', type='hidden', method='POST', action='')
 			input#hiddenRemStatus(type='hidden', name='hiddenStatus')
 			input#hiddenRemTicker(type='hidden', name='hiddenTicker')
@@ -15,14 +16,10 @@ block content
 			| Stock Symbol
 			input#hiddenInStatus(type='hidden', name='hiddenStatus')
 			input#hiddenInTicker(type='hidden', name='hiddenTicker')
-			input.awesomplete(id="mySearch" placeholder="Enter Stock Ticker")
+			input#stockInput.awesomplete(type='text', placeholder='Enter a stock to track')
 			div.modal#myModal
 				div.modal-content
 					span Stock successfully added!
-			//- input#stockInput.awesomplete(type='text', placeholder='Enter a stock to track')
-			//- div.modal#myModal
-			//- 	div.modal-content
-			//- 		span Stock successfully added!
 			button#stockInput.btn(type='submit', onlick='inputTicker()') Track
 	div#stocklist.stock_data
 
