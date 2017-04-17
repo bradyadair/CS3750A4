@@ -6,9 +6,13 @@ block content
 	div.bodydiv
 		h2 Stock List Page
 	div#stockInputDiv.stockInputDiv
-		form(id='stockInput-form', class = stockInputForm, method='POST', action='')
+		if error
+			p.error ERROR: #{error}
+		form(id='stockInput-form', class = 'stockInputForm', method='POST', action='')
 			| Stock Symbol
 			input#stockInput.stockInputBox(type='text', placeholder='Enter a stock to track')
+			input#hiddenStatus(type='hidden', name='hiddenStatus')
+			input#hiddenTicker(type='hidden', name='hiddenTicker')
 			button#stockInput.btn(type='submit', onlick='inputTicker()') Track
 	div#stocklist.stock_data
 
@@ -22,6 +26,8 @@ block logout
 block scripts
 	script(type='text/javascript')
 		| var finalHtml =!{JSON.stringify(stockHtml)};
+		| var sflag =!{JSON.stringify(sflag)};
+		| var tick = !{JSON.stringify(tick)};
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
 	script(src='/scripts/watchlist.js') 
 	script(type='text/javascript').

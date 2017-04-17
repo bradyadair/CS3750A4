@@ -63,6 +63,7 @@ router.get('/stocklist', function (req, res, next) {
 
       // gets the users tickers and puts them in an array, was doing this because it used a different collection in db before but now its its own with watchlist
       var tickers = [];
+      tickers.push(user.watchlist);
       var n = user.watchlist.length;
       // start of html string to concatonate and pass as final html string
       var finalHtml = "<Table class='stocktable'><tr><th class='stockLabel'>Stock Name</th><th class='stockLabel'>Ticker</th><th class='stockLabel'>Open Price</th><th class='stockLabel'>Current Price</th><th class='stockLabel'>Status</th><th class='stockLabel'></th></tr>"
@@ -70,21 +71,23 @@ router.get('/stocklist', function (req, res, next) {
       var status = "";
       var math = 0;
       count = 0;
+      var flag = "";
+      var tick = "";
 
             
       if( n < 1 ){
-        res.render('stocklist', { stockHtml: finalHtml });
+        res.render('stocklist', { stockHtml: finalHtml , sflag:flag, tick:tick});
       }
 
 
       // add each ticker to tickers for copy with new reference
-      for (var i = 0; i < n; i++) {
-        tickers.push(user.watchlist[i]);
-      }
+      // for (var i = 0; i < n; i++) {
+      //   tickers.push(user.watchlist[i]);
+      // }
       console.log("\nFound tickers: " + tickers + "\n");
 
       // function queries yahoo for financial data and appends to html variables to pass through the render and use on users page
-      function yahooFunct(finalHtml, tempHtml, tickers, status, math, count, n, res) {
+      function yahooFunct(finalHtml, tempHtml, tickers, status, flag, tick, math, count, n, res) {
         for (var i = 0; i < n; i++) {
           yahooFinance.snapshot({
             symbol: tickers[i],
@@ -96,7 +99,7 @@ router.get('/stocklist', function (req, res, next) {
             }
             if (!snapshot) {
               // change it so renders error on page
-              res.render('error.jade', { Error: "Didnt find the user" });
+              res.render('stocklist', { error: "Didnt find the users stock: " +ticker[i] });
             }
             else {
               math = Number(snapshot.open) - Number(snapshot.lastTradePriceOnly);
@@ -121,7 +124,7 @@ router.get('/stocklist', function (req, res, next) {
               // We may want a better solution
               if(count == n)
               {
-                finishHtml(count, tempHtml, finalHtml, res);
+                finishHtml(count, tempHtml, finalHtml, flqt, tick, res);
               }
             }
           });
@@ -129,17 +132,17 @@ router.get('/stocklist', function (req, res, next) {
       }
 
       // made this function to delay rendering page because the query for financial data needs a promise, crude workaround
-      function finishHtml(count, tempHtml, finalHtml, res) {
+      function finishHtml(count, tempHtml, finalHtml, flag, tick, res) {
         console.log("-- In finishHtml");
         console.log("Final Count : " + count);
         finalHtml += tempHtml;
         finalHtml += "</table>";
 
-        res.render('stocklist', { stockHtml: finalHtml });
+        res.render('stocklist', { stockHtml: finalHtml , sflag:flag, tick:tick});
       }
       
       // this is where the functions above actually start getting called, did it last so their vars are declared and instantiated
-      yahooFunct(finalHtml, tempHtml, tickers, status, math, count, n, res);
+      yahooFunct(finalHtml, tempHtml, tickers, status, flag, tick, math, count, n, res);
     }
   });
 });
@@ -155,33 +158,49 @@ router.post('/stocklist', function (req, res, next) {
   var decodedToken = jwt.verify(sess.token, 'secret');
   var name = decodedToken.username.replace(" ", "");      // THIS IS HOW WE HAVE TO GET THE USERNAME, NOTE: MUST USE THE REPLACE CASUE WHITESPACE
 
+  console.log("I'm in stockview post");
+  console.log(req.body.hiddenStatus);
+  var status = JSON.parse(req.body.hiddenStatus);
+  console.log("here's my Status after parsed: " + status);
+  console.log(req.body.hiddenTicker);
+  var ticker = JSON.parse(req.body.hiddenTicker).replace(" ", "").toUpperCase();
+  console.log("here's my Ticker after parsed: " + ticker);
+  
   User.findOne({
     username: name
   }, function (err, user) {
     if (err) next(err);
 
     if (!user) {
-      res.render('error.jade', { Error: "Didnt find the user" });
+      res.render('error.jade', { error: "Didnt find the user" });
     } else {
-      if (req.body.type == 'input')
-      {
-        project4.user.update(
-          { username: user.username },
-          { $addToSet: {watchlist: req.body.ticker } }
-        )
-      }
-      else if(req.body.type == 'delete')
-      {
-        project4.user.update(
-          { username: user.username },
-          { $pull: {watchlist: req.body.ticker } }
-        )
-      }
-      else
-      {
-        //handle some error and render
-      }
-      res.redirect('/stock/stocklist');
+      yahooFinance.snapshot({
+        symbol: ticker,
+        fields: ['s']
+      }, function (err, snapshot) {
+        if (err) {
+          console.log(err);
+          next(err);
+        }
+        if (!snapshot) {
+          // change it so renders error on page
+          res.render('stocklist', { error: "Stock Ticker Was Not Found" });
+        }
+        else {
+          if (status == 'input') {
+            // add item
+            console.log("In stocklist post status = input");
+          }
+          else if (status == 'remove') {
+            // remove item
+            console.log("In stocklist post status = remove");
+          }
+          else {
+            //handle some error and render
+          }
+          res.redirect('/stock/stocklist');
+        }
+      });
     }
   });
 });
@@ -201,7 +220,7 @@ router.get('/stockview', function (req, res, next) {
   var name = decodedToken.username.replace(" ", "");
 
   User.findOne({
-    username: name
+    username: req.session['username']
   }, function (err, user) {
     if (err) next(err);
 
