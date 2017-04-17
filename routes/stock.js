@@ -6,6 +6,7 @@
   var User    = require('../models/user');
   var router  = express.Router();
   var Highcharts = require('Highcharts');
+  var request = require('request');
 
   
  // var Highcharts = require('highcharts');
@@ -142,5 +143,23 @@
     
     res.render('managemoney', {dict:dict});
   });
+
+  // stockview ajax post
+  router.post('/queryData', function(req, res) {
+    request('http://localhost:3000/stock/stockview', function(error, resPost, body) {
+      console.log("queryData");
+      console.log(error);
+      console.log(res.statusCode);
+      if (!error && res.statusCode == 200) {
+        let fname = req.body.name;
+        let city = req.body.city;
+        console.log(fname);
+        console.log(city);
+        let string = "Name: " + fname + "\nCity: " + city;
+
+        res.render('stockview', {data: string});
+      }
+    })
+  }); 
 
 module.exports = router;
