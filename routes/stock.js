@@ -190,6 +190,14 @@ router.post('/stocklist', function (req, res, next) {
           if (status == 'input') {
             // add item
             console.log("In stocklist post status = input");
+            User.findOneAndUpdate({ username: name }, { $push: { watchlist: ticker } }, { upsert: true, safe: true })
+              .then(function (stock) {
+                res.status(200).json(stock);
+              })
+              .catch(function (err) {
+                console.log(err);
+                return res.status(500).json(err);
+              })
           }
           else if (status == 'remove') {
             // remove item
