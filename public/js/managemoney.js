@@ -82,7 +82,7 @@ window.onload = () => {
                     {
 
                         $(this).slider("option", "value", value- (myTotal-100));
-                        alert("You went over 100% of you funds!\n\nSet to max available.");
+                        modalDisplay();
                         console.log("You went over 100, chart will not be changed.");
                         console.log("You're total was: " + myTotal);
                     }
@@ -158,6 +158,17 @@ window.onload = () => {
 
         makeChart(dict);
     });
+
+    function modalDisplay(){
+        var modal = document.getElementById('myModal');
+        //var span = document.getElementsByClassName("close")[0];
+        var delayMillis = 3000; //1 second
+        
+        //open the modal 
+        modal.style.display = "block";
+        setTimeout(function(){modal.style.display = "none"}, delayMillis);    
+
+    }
     
 
     form.addEventListener('submit', function(evt)
