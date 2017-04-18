@@ -82,6 +82,7 @@ window.onload = () => {
                     {
 
                         $(this).slider("option", "value", value- (myTotal-100));
+                        alert("You went over 100% of you funds!\n\nSet to max available.");
                         console.log("You went over 100, chart will not be changed.");
                         console.log("You're total was: " + myTotal);
                     }
