@@ -91,12 +91,115 @@
     res.render('stockview');
   });
 
+    
     router.get('/managemoney', function(req, res, next) {
 
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
+
+/*
+    var dict = [{
+                    name: 'Microsoft Internet Explorer',
+                    y: 10
+                }, {
+                    name: 'Chrome',
+                    y: 20,
+                    //sliced: true,
+                    //selected: true
+                }, {
+                    name: 'Firefox',
+                    y: 30
+                }, {
+                    name: 'Safari',
+                    y: 0
+                }, {
+                    name: 'Opera',
+                    y: 0
+                }, {
+                    name: 'UnAllocated Stocks',
+                    y: 40
+                }];
+         */       
+             
+
+    User.findOne({
+      username: req.session['username']
+    }, function(err, user) 
+    {
+      if (err) next(err);
+
+      if (!user) {
+      } 
+      else if (user) 
+      {
+          dict = user.stockPercentages;
+
+/*
+          //used for deleting a specific item from the array
+          for (var i = 0; i<dict.length; i++)
+          {
+            if (dict[i]['name'] == 'Microsoft Internet Explorer')
+            {
+              dict.splice(i, 1);
+            }
+          }
+          */
+
+          //used for adding an item to the beginning of the array
+          //dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+          //dict.unshift({name: 'Walmart',y: 10});
+          
+          res.render('managemoney', {dict:dict});
+      }
+    });  
     
-    res.render('managemoney', {Highcharts: Highcharts});
+    
+
+    //res.render('managemoney', {dict:dict});
+
+          
+    
+    
+  });
+
+
+  router.post('/managemoney', function(req, res, next) {
+
+    var sess = req.session;
+    var decodedToken = jwt.verify(sess.token, 'secret');
+
+    console.log("i'm in managemoney post");
+    console.log(req.body.hiddenDict);
+
+    var dict = JSON.parse(req.body.hiddenDict);
+
+    console.log("here's my dict after parsed: " + dict);
+
+    User.findOne(
+    {
+      username: req.session['username']
+    }, function(err, user) 
+    {
+        if (err) next(err);
+        if (user) 
+        {
+          
+
+          console.log("here's my dict after parsed: " + dict);
+
+          user.stockPercentages =dict;
+          
+
+          console.log("here's my stock percentages before I save");
+          console.log(user.stockPercentages);
+          user.save(function(err, brady){
+          if(err) return console.error(err);
+          });
+        } 
+    });
+      
+    
+    res.render('managemoney', {dict:dict});
   });
 
 module.exports = router;

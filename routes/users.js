@@ -54,6 +54,7 @@ router.post('/register', function(req,res){
     last_name: req.body.last_name, 
     email: req.body.email, 
     password: req.body.password,
+    stockPercentages: [{ name: 'UnAllocated Stocks', y: 40}]
   });
 
   
@@ -155,6 +156,8 @@ router.post('/login', function(req, res) {
         
         myEmail = user.email;
         myUsername = user.username;
+
+        req.session['username'] = user.username;
         
         res.redirect('../stock/addStock');
       }
