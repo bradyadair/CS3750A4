@@ -7,13 +7,19 @@ var bodyParser = require('body-parser');
 var jade = require('jade');
 var Highcharts = require('highcharts');
 
+<<<<<<< HEAD
 var User  = require('./models/user');
+=======
+
+var User = require('./models/user');
+>>>>>>> refs/remotes/origin/master
 
 // added ***************************
 var app = express();
 var session = require('express-session');
 var jwt = require('jsonwebtoken');
 var $ = require('jQuery')
+
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/project4');
@@ -43,6 +49,7 @@ app.use(session({
 }));
 
 // view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 

@@ -7,6 +7,7 @@ module.exports = mongoose.model('User', new Schema({
   first_name: String,
   last_name: String,
   password: String,
+<<<<<<< HEAD
   messages:  [{ 
     content: { type: String },
     date: { type: Date, default: Date.now }
@@ -14,5 +15,10 @@ module.exports = mongoose.model('User', new Schema({
   stockPercentages: [{
       name: {type:String},
       y: {type:Number}
+=======
+  stockPercentages: [{
+    name: {type:String},
+    y: {type:Number}
+>>>>>>> refs/remotes/origin/master
   }]
 }));
