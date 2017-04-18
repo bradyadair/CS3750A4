@@ -157,7 +157,7 @@
         console.log(city);
         let string = "Name: " + fname + "\nCity: " + city;
 
-        res.render('stockview', {data: string});
+        res.json({string: string});
       }
     })
   }); 
