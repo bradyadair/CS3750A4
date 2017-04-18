@@ -54,6 +54,38 @@
 
     var s = {name: newStock, y: 0};
 
+    User.findOne({
+      username: req.session['username']
+    }, function(err, user) 
+    {
+      if (err) next(err);//return res.status(500).json(err);//
+      
+
+      if (!user) {
+      } 
+      else if (user) 
+      {
+          var dict = user.stockPercentages;
+
+          //used for adding an item to the beginning of the array
+          user.stockPercentages.unshift({name: newStock,y: 0});// = dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+
+          user.save(function(err, brady){
+          if(err) return console.error(err);
+        });
+        
+        //return res.status(200).json(stock);
+          
+      }
+    }).then(function(stock) { 
+            res.status(200).json(stock);
+        })
+        .catch(function(err){
+            console.log(err);
+            return res.status(500).json(err);
+        });  
+
+/*
     User.findOneAndUpdate({_id: userId },{$push: { stockPercentages : s }},{upsert:true, safe:true})
         .then(function(stock) { 
             res.status(200).json(stock);
@@ -62,7 +94,9 @@
             console.log(err);
             return res.status(500).json(err);
         })
+        */
     });
+    
 
     /*User.update({_id: userId },
             {$push: { stocks : s }}, function(err, stock) {
