@@ -5,18 +5,10 @@
   var jwt     = require('jsonwebtoken');
   var User    = require('../models/user');
   var router  = express.Router();
-<<<<<<< HEAD
-  var Highcharts = require('Highcharts');
-
-  
- // var Highcharts = require('highcharts');
- //require('highcharts/modules/exporting')(Highcharts);
-=======
   var User = require('../models/user.js');
 
   
   var Highcharts = require('highcharts'); // Since 4.2.0
->>>>>>> refs/remotes/origin/master
 
   router.all('*', (req, res, next)=>{
       //check if token exists
@@ -206,12 +198,7 @@
         } 
     });
       
-    
-<<<<<<< HEAD
-    res.render('managemoney', {dict:dict});
-=======
     res.render('managemoney', {Highcharts: Highcharts});
->>>>>>> refs/remotes/origin/master
   });
 
 module.exports = router;

@@ -6,13 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jade = require('jade');
 var Highcharts = require('highcharts');
-
-<<<<<<< HEAD
-var User  = require('./models/user');
-=======
-
 var User = require('./models/user');
->>>>>>> refs/remotes/origin/master
 
 // added ***************************
 var app = express();
