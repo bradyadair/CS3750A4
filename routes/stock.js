@@ -53,36 +53,55 @@
     var newStock = req.body.name;
 
     var s = {name: newStock, y: 0};
-
     User.findOne({
-      username: req.session['username']
-    }, function(err, user) 
-    {
-      if (err) next(err);//return res.status(500).json(err);//
-      
+      username: req.session['username'],
+      stockPercentages : {$elemMatch: {name: newStock}}
+    }).then(function(stock, err) { 
+            console.log(stock);
+            if (stock === null) {
+                console.log("Stock does not exist.  We can add stock now.")
+                User.findOne({
+                  username: req.session['username'],
+                }, function(err, user) 
+                {
+                  if (err) next(err);//return res.status(500).json(err);//
+                  
 
-      if (!user) {
-      } 
-      else if (user) 
-      {
-          var dict = user.stockPercentages;
+                  if (!user) {
+                  } 
+                  else if (user) 
+                  {
+                      var dict = user.stockPercentages;
 
-          //used for adding an item to the beginning of the array
-          user.stockPercentages.unshift({name: newStock,y: 0});// = dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+                      //used for adding an item to the beginning of the array
+                      user.stockPercentages.unshift({name: newStock,y: 0});// = dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
 
-          user.save(function(err, brady){
-          if(err) return console.error(err);
-        });
-        
-          
-      }
-    }).then(function(stock) { 
-            res.status(200).json(stock);
+                      user.save(function(err, brady){
+                      if(err) return console.error(err);
+                    });
+                    
+                      
+                  }
+                }).then(function(stock) { 
+                    console.log(stock);
+                    res.status(200).json(stock);
+                  })
+                  .catch(function(err){
+                      console.log(err);
+                      return res.status(500).json(err);
+                  });
+            }
+            else {
+              console.log("Stock already exists.")
+              console.log(err);
+              res.status(405).json(err);
+            }
         })
-        .catch(function(err){
-            console.log(err);
-            return res.status(500).json(err);
-        });  
+        .catch(function(err){ 
+              console.log(err);
+              return res.status(405).json(err);
+        })
+    
 
 /*
     User.findOneAndUpdate({_id: userId },{$push: { stockPercentages : s }},{upsert:true, safe:true})
@@ -94,7 +113,7 @@
             return res.status(500).json(err);
         })
         */
-    });
+  });
     
 
     /*User.update({_id: userId },
