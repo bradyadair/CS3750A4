@@ -146,7 +146,7 @@
 
   // stockview ajax post
   router.post('/queryData', function(req, res) {
-    request('http://localhost:3000/stock/stockview', function(error, resPost, body) {
+    request('http://localhost:3000/stock/stockview', function(error, resAjax, body) {
       console.log("queryData");
       console.log(error);
       console.log(res.statusCode);

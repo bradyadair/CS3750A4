@@ -51,7 +51,7 @@ window.onload = () => {
         };
             makeChart();
 
-            $(document).ready(function(){
+        $(document).ready(function(){
 			$("button").click(function(){
 				$.post("/stock/queryData",
 				{
@@ -66,7 +66,6 @@ window.onload = () => {
 				function(data, status) {
 					//alert("Data: " + data.instaData + "\nStatus: " + status);
 					instaData = data.instaData;
-					alert(instaData);
 					makeChart();
 				});
 			});

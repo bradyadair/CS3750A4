@@ -1,23 +1,34 @@
 block variables
 	title Stock | Stock View Page
 extends layout
-
-
 block content
 	div.bodydiv
 		h2 Stock View Page
-
 		#container(style='width:100%; height:400px;')
+		br
+		form
+			label Date From: 
+			input.queryDate(type='date' name='dateFrom')
+			label Date To: 
+			input.queryDate(type='date' name='dateTo')
+			br
+			label.queryPeriod Daily 
+				input(type='radio' name='periodQuery' value='Daily')
+			label.queryPeriod Weekly 
+				input(type='radio' name='periodQuery' value='Weekly')
+			label.queryPeriod Monthly 
+				input(type='radio' name='periodQuery' value='Monthly')
 		button Submit
+		br
 
 block logout
 	a#logout(href='/users/logout') Logout
 	a#logout(href='/stock/stock') Stock
 	a#logout(href='/stock/stocklist') List
 	a#logout(href='/stock/managemoney') Money
-	#container(style='width:100%; height:400px;')
-	#slider
-	#slider2
+	//#container(style='width:100%; height:400px;')
+	//#slider
+	//#slider2
 	
 block scripts
 	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js')
@@ -27,5 +38,4 @@ block scripts
 	script(src="https://code.highcharts.com/highcharts.js")
 	script(src="https://code.highcharts.com/modules/exporting.js")
 	script(src="/js/stockView.js")
-	//script(type='text/javascript').
 		
