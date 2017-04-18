@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 window.onload = () => {
     var form = document.getElementById("myForm");
     
@@ -83,17 +82,17 @@ window.onload = () => {
                     {
 
                         $(this).slider("option", "value", value- (myTotal-100));
+                        alert("You went over 100% of you funds!\n\nSet to max available.");
                         console.log("You went over 100, chart will not be changed.");
                         console.log("You're total was: " + myTotal);
                     }
                     
                     
                 },
-                slide: function(event, ui) {
-
+                slide: function() {
                     var value = $(this).slider("option","value");
                     
-                    $(this).find(".ui-slider-handle").text(ui.value);
+                    $(this).find(".ui-slider-handle").text(value);
                 },
             });
 
@@ -103,14 +102,12 @@ window.onload = () => {
 
         //defining a function
         function makeChart(mydict){
-
             Highcharts.chart('container', {
             chart: {
-                plotBackgroundColor: "#b3e6cc",
+                plotBackgroundColor: null,
                 plotBorderWidth: null,
-                plotShadow: true,
-                type: 'pie',
-                backgroundColor: "#ffffff"
+                plotShadow: false,
+                type: 'pie'
             },
             title: {
                 text: 'Percentages of Money Placed In Stocks'
@@ -123,11 +120,11 @@ window.onload = () => {
                     allowPointSelect: false, //true
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
             
                     },
                     
@@ -171,67 +168,3 @@ window.onload = () => {
         document.getElementById('hiddenDict').value = myDict;
     })
 }
-=======
-$(document).ready(function () {
-
-    // Load Highcharts
-    //var Highcharts = require('highcharts');
-
-    // Alternatively, this is how to load Highstock. Highmaps is similar.
-    // var Highcharts = require('highcharts/highstock');
-
-    // This is how a module is loaded. Pass in Highcharts as a parameter.
-    //require('highcharts/modules/exporting')(Highcharts);
-
-    // Build the chart
-    Highcharts.chart('container', {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
-        },
-        title: {
-            text: 'Browser market shares January, 2015 to May, 2015'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false
-                },
-                showInLegend: true
-            }
-        },
-        series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: [{
-                name: 'Microsoft Internet Explorer',
-                y: 56.33
-            }, {
-                name: 'Chrome',
-                y: 24.03,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Firefox',
-                y: 10.38
-            }, {
-                name: 'Safari',
-                y: 4.77
-            }, {
-                name: 'Opera',
-                y: 0.91
-            }, {
-                name: 'Proprietary or Undetectable',
-                y: 0.2
-            }]
-        }]
-    });
-});
->>>>>>> refs/remotes/origin/master
