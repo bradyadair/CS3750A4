@@ -33,7 +33,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
 
-    res.render('stock.jade');
+    res.render('stock');
   });
     /*var yahooFinance = require('yahoo-finance');
 
@@ -48,7 +48,7 @@
       var fs = require('fs');
       var readline = require('readline');
 
-      res.render('stock.jade', {quotesList: quotes});
+      res.render('stock', {quotesList: quotes});
     });
   });*/
 
@@ -86,7 +86,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('stocklist.jade');
+    res.render('stocklist');
   });
 
     router.get('/stockview', function(req, res, next) {
@@ -94,7 +94,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('stockview.jade');
+    res.render('stockview');
   });
 
     router.get('/managemoney', function(req, res, next) {
@@ -102,7 +102,7 @@
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
     
-    res.render('managemoney.jade');
+    res.render('managemoney');
   });
 
 module.exports = router;

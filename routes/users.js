@@ -14,7 +14,7 @@ router.get('/login', function(req, res, next) {
     //if no token redirect to login
     // TODO: check valid token before next()
     if (!sess.token) {
-      res.render('users/login.jade'); 
+      res.render('users/login'); 
     } else {
       
       res.redirect('../stock/addStock');
@@ -30,7 +30,7 @@ router.get('/logout', function(req, res, next) {
 });
 
 router.get('/register', function(req, res, next) {
-  res.render('users/register.jade');
+  res.render('users/register');
 });
 
 router.post('/register', function(req,res){
@@ -116,14 +116,14 @@ router.post('/register', function(req,res){
 
   if(!isValid)
   {
-    res.render('users/register.jade', {errors: "Errors:", passMatch: myPassMatch, passLength:myPassLength, cpassLength: myCpassLength,
+    res.render('users/register', {errors: "Errors:", passMatch: myPassMatch, passLength:myPassLength, cpassLength: myCpassLength,
     usernameLength: myUsernameLength,  invalidUsername: myInvalidUsername, emailLength: myEmailLength,
     invalidEmail: myInvalidEmail, firstnameLength: myFirstnameLength, lastnameLength: myLastnameLength});
   
   }
   else
   {
-    res.render('users/login.jade');
+    res.render('users/login');
 
     user.save(function(err, brady){
     if(err) return console.error(err);
@@ -139,11 +139,11 @@ router.post('/login', function(req, res) {
     if (err) next(err);
 
     if (!user) {
-        res.render('users/login.jade', {loginError: "Invalid Login"});
+        res.render('users/login', {loginError: "Invalid Login"});
     } else if (user) {
       // check pw
       if (user.password != req.body.password) {
-        res.render('users/login.jade', {loginError: "Invalid Login"});
+        res.render('users/login', {loginError: "Invalid Login"});
       } else {
           var genToken = jwt.sign( {username: user.username}, 'secret', {
           expiresIn: "23h"
