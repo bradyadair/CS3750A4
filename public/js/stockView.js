@@ -1,7 +1,11 @@
 window.onload = () => {
+
+    var instaData = [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175];
+
         $(function(){
             var dict = stockDict;
             var value = 0;
+            
         });
 
         function makeChart(){
@@ -29,7 +33,7 @@ window.onload = () => {
                     },
                     series: [{
                         name: 'Installation',
-                        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                        data: instaData//[43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
                     }, {
                         name: 'Manufacturing',
                         data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
@@ -46,4 +50,25 @@ window.onload = () => {
                 });
         };
             makeChart();
+
+            $(document).ready(function(){
+			$("button").click(function(){
+				$.post("/stock/queryData",
+				{
+					// symbols:
+					// dateFrom:
+					// dateTo:
+					// period: 
+
+					name: "Donald",
+					city: "Duckberg"
+				},
+				function(data, status) {
+					//alert("Data: " + data.instaData + "\nStatus: " + status);
+					instaData = data.instaData;
+					alert(instaData);
+					makeChart();
+				});
+			});
+		});
 };

@@ -151,13 +151,17 @@
       console.log(error);
       console.log(res.statusCode);
       if (!error && res.statusCode == 200) {
+
+        // if (period == )
+        // yahooFinancial
         let fname = req.body.name;
         let city = req.body.city;
         console.log(fname);
         console.log(city);
         let string = "Name: " + fname + "\nCity: " + city;
+        let instaData = [43934, 52503, 57177, 69658, 0, 0, 137133, 154175];
 
-        res.json({string: string});
+        res.json({instaData: instaData});
       }
     })
   }); 

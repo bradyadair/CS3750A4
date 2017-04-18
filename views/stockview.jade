@@ -27,16 +27,5 @@ block scripts
 	script(src="https://code.highcharts.com/highcharts.js")
 	script(src="https://code.highcharts.com/modules/exporting.js")
 	script(src="/js/stockView.js")
-	script(type='text/javascript').
-		$(document).ready(function(){
-			$("button").click(function(){
-				$.post("/stock/queryData",
-				{
-					name: "Donald",
-					city: "Duckberg"
-				},
-				function(data, status) {
-					alert("Data: " + data.string + "\nStatus: " + status);
-				});
-			});
-		});
+	//script(type='text/javascript').
+		
