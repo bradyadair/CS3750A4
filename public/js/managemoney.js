@@ -104,9 +104,10 @@ window.onload = () => {
         function makeChart(mydict){
             Highcharts.chart('container', {
             chart: {
-                plotBackgroundColor: null,
+                plotBackgroundColor: '#8cd9b3',
                 plotBorderWidth: null,
                 plotShadow: false,
+                backgroundColor: '#ffffff',
                 type: 'pie'
             },
             title: {
