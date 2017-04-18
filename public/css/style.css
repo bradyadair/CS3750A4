@@ -635,3 +635,171 @@ textarea:focus {
     font-size: 30px;  
     border-radius: 6px;  
 }
+
+
+
+/********************* CSS FOR STOCK LIST PAGE ***********************/
+
+.stock_data{
+	color: white;
+	padding: 20px;
+	padding-top: 10px;
+	margin: auto 0;
+	padding-top: 50x;
+	border-collapse: collapse;
+}
+
+.stocktable{
+	padding:5px;
+	width: 100%;
+}
+
+.stockLabel{
+	border: 1px solid #ddd;
+    padding: 8px;
+	padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: black;
+    color: red;
+	font-weight: bold;
+	font-family: 'Bungee', 'Times New Roman', Times, serif;
+	font-size: large;
+	text-align: center;
+}
+
+.stockListRow{
+	color: black;
+}
+
+.stockListRow:nth-child(even){
+	background-color: #1db8e2
+}
+
+.stockListRow:nth-child(odd){
+	background-color: #1b91c4
+}
+
+.stockListRow:hover{
+	background-color: lawngreen;
+}
+
+.stockColumn{
+	border: 1px solid #ddd;
+    padding: 8px;
+	width: 17%;
+	text-align: right;
+}
+
+.stockColumn:nth-child(1){
+	width: 32%;
+	text-align: center;
+}
+
+.stockColumn:nth-child(2){
+	text-align: center;
+}
+
+.stockColumn:nth-child(5){
+	text-align: center;
+}
+
+.stockColumn:nth-child(6){
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.stockInputDiv{
+	text-align: center;
+	padding-top: 5%;
+	padding-left: 30%;
+	padding-right: 30%;
+	color: white;
+	outline-color: black;
+	text-shadow: black;
+	outline-width: 2px;
+	font-size: 24px;
+}
+
+.stockInputBox{
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+
+/*	CSS for Remove Button	*/
+.hot-container p { margin-top: 10px; }
+a { text-decoration: none; margin: 0 10px; }
+
+.hot-container {
+	min-height: 100px;
+	margin-top: 100px;
+	width: 100%;
+	text-align: center;
+}
+
+a.btn {
+	color: #666;
+	background-color: #eee;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 12px;
+	padding:10px 10px 10px 10px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-bottom-width: 3px;
+}
+
+	a.btn:hover {
+		background-color: #e3e3e3;
+		border-color: rgba(0,0,0,0.5);
+	}
+	
+	a.btn:active {
+		background-color: #CCC;
+		border-color: rgba(0,0,0,0.9);
+	}
+
+/* red button */
+
+a.btn.btn-red {
+	background-color: #E48681;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #FFF;
+}
+
+a.btn.btn-red:hover {
+	background-color: #DA4F49;
+	border-color: rgba(0,0,0,0.5);
+}
+	
+a.btn.btn-red:active {
+	background-color: #B32C24;
+	border-color: rgba(0,0,0,0.9);
+}
+
+/* input ticker to track btn */
+
+.btn{
+  background:#2ecc71;
+  width:125px;
+  height:30px;
+  padding-top:5px;
+  padding-bottom:5px;
+  color:white;
+  border-radius:4px;
+  border: #27ae60 1px solid;
+  text-align: center;
+  margin-top:10px;
+  margin-bottom:10px;
+  font-weight:800;
+  font-size:0.8em;
+  font-family: initial;
+}
+
+.btn:hover{
+  background:#2CC06B; 
+}

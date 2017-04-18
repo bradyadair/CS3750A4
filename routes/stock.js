@@ -5,6 +5,7 @@
   var jwt     = require('jsonwebtoken');
   var router  = express.Router();
   var User = require('../models/user.js');
+  var yahooFinance = require('yahoo-finance');
 
   
   var Highcharts = require('highcharts'); // Since 4.2.0
@@ -21,6 +22,10 @@
         next();
       }    
   });
+
+
+/****************** ADD STOCK ROUTER/CONTROLLER ***********************/
+
 
   router.get('/addStock', function(req, res, next) {
 
@@ -45,6 +50,9 @@
       res.render('stock', {quotesList: quotes});
     });
   });*/
+
+
+  /****************** STOCKS ROUTER/CONTROLLER ***********************/
 
   router.post('/stocks', function(req, res, next) { 
     
@@ -127,13 +135,146 @@
 
   //});   
     
-  router.get('/stocklist', function(req, res, next) {
 
-    var sess = req.session;
-    var decodedToken = jwt.verify(sess.token, 'secret');
-    
-    res.render('stocklist');
+/****************************    STOCK LIST ROUTER / CONTROLLER ********************8****/
+
+router.get('/stocklist', function (req, res, next) {
+
+  var sess = req.session;
+  var decodedToken = jwt.verify(sess.token, 'secret');
+  var name = decodedToken.username.replace(" ", "");      // THIS IS HOW WE HAVE TO GET THE USERNAME, NOTE: MUST USE THE REPLACE CASUE WHITESPACE
+
+  User.findOne({
+    username: name
+  }, function (err, user) {
+    if (err) next(err);
+
+    if (!user) {
+      res.render('error.jade', { error: "Didnt find the user" });
+    } else {
+
+      // start of html string to concatonate and pass as final html string
+      var finalHtml = "<Table class='stocktable'><tr><th class='stockLabel'>Stock Name</th><th class='stockLabel'>Ticker</th><th class='stockLabel'>Open Price</th><th class='stockLabel'>Current Price</th><th class='stockLabel'>Status</th><th class='stockLabel'></th></tr>"
+      var tempHtml = "";
+      var status = "";
+      var math = 0;
+      count = 0;
+      var tick = "";
+
+      // gets the users tickers and puts them in an array or if empty renders page
+      var n = user.stockPercentages.length;
+      var tickers = [];
+      console.log("\nSize of watchlist: " + n);
+
+      if (n < 1) {
+        res.render('stocklist', { stockHtml: finalHtml, tick: tick });
+      }
+
+      user.stockPercentages.forEach(function(ticker) {
+        tickers.push(ticker.name);
+      });
+      console.log("\nFound tickers: " + tickers + "\n");
+
+      // function queries yahoo for financial data and appends to html variables to pass through the render and use on users page
+      function yahooFunct(finalHtml, tempHtml, status, tick, math, count, n, res) {
+        for (var i = 0; i < n; i++) {
+          yahooFinance.snapshot({
+            symbol: tickers[i],
+            fields: ['s', 'n', 'o', 'l1']
+          }, function (err, snapshot) {
+            if (err) {
+              console.log(err);
+              next(err);
+            }
+            if (!snapshot) {
+              // change it so renders error on page
+              res.render('stocklist', { error: "Didnt find the users stock: " + ticker[i], stockHtml: finalHtml, tick: tick });
+            }
+            else {
+              math = Number(snapshot.open) - Number(snapshot.lastTradePriceOnly);
+              if (math > 0) {
+                status = "DOWN";
+              }
+              else if (math == 0) {
+                status = "NO CHANGE";
+              }
+              else {
+                status = "UP";
+              }
+
+              tempHtml += "<tr class='stockListRow'>";
+              tempHtml += "<td class='stockColumn'>" + snapshot.name + "</td><td class='stockColumn'>" + snapshot.symbol + "</td><td class='stockColumn'>$" + snapshot.open + "</td><td class='stockColumn'>$"
+                + snapshot.lastTradePriceOnly + "</td><td class='stockColumn'>" + status + "</td><td class='stockColumn'><a href='#' id='removebtn' data-id='" + snapshot.symbol + "' name='removebtn' class='btn btn-red'>Remove</a></td>";
+              tempHtml += "</tr>";
+              console.log(tempHtml);
+              count += 1;
+              console.log("\nCount : " + count);
+              // The query isnt syncing well so this is sort of a work around to wait to render the page
+              // We may want a better solution
+              if (count == n) {
+                finishHtml(count, tempHtml, finalHtml, tick, res);
+              }
+            }
+          });
+        }
+      }
+
+      // made this function to delay rendering page because the query for financial data needs a promise, crude workaround
+      function finishHtml(count, tempHtml, finalHtml, tick, res) {
+        console.log("-- In finishHtml");
+        console.log("Final Count : " + count + "\n");
+        finalHtml += tempHtml;
+        finalHtml += "</table>";
+
+        res.render('stocklist', { stockHtml: finalHtml, tick: tick });
+      }
+
+      // this is where the functions above actually start getting called, did it last so their vars are declared and instantiated
+      yahooFunct(finalHtml, tempHtml, status, tick, math, count, n, res);
+    }
   });
+});
+
+
+
+router.post('/stocklist', function (req, res, next) {
+  // Delete the selected ticker from watchlist in user
+  // redirect to /stock/stocklist
+  var sess = req.session;
+  var decodedToken = jwt.verify(sess.token, 'secret');
+  var name = decodedToken.username.replace(" ", "");      // THIS IS HOW WE HAVE TO GET THE USERNAME, NOTE: MUST USE THE REPLACE CASUE WHITESPACE
+
+  console.log("\nI'm in stockview post");
+
+  var ticker = "";
+  ticker = JSON.parse(req.body.hiddenTicker).replace(" ", "").toUpperCase();
+
+  User.findOne({
+    username: name
+  }, function (err, user) {
+    if (err) next(err);
+
+    if (!user) {
+      res.render('error.jade', { error: "Didnt find the user" });
+    } else {
+      console.log("Ticker: " + ticker);
+      console.log("\nIn stocklist post status = remove\n");
+
+        User.findOneAndUpdate({ username: name }, { $pull: { stockPercentages: {name: ticker} } }, { upsert: true, safe: true })
+          .then(function (stock) {
+            res.status(200).json(stock);
+          })
+          .catch(function (err) {
+            console.log(err);
+            return res.status(500).json(err);
+          })
+    }
+    res.redirect('stocklist');
+  });
+});
+
+
+/****************** STOCK VIEW ROUTER/CONTROLLER ***********************/
 
     router.get('/stockview', function(req, res, next) {
 
@@ -143,7 +284,10 @@
     res.render('stockview');
   });
 
-    
+
+
+/****************** MANAGE MONEY ROUTER/CONTROLLER ***********************/
+
     router.get('/managemoney', function(req, res, next) {
 
     var sess = req.session;
