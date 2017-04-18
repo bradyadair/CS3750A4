@@ -171,7 +171,9 @@ router.get('/stocklist', function (req, res, next) {
       }
 
       user.stockPercentages.forEach(function(ticker) {
-        tickers.push(ticker.name);
+        if(ticker.name != 'UnAllocated Stocks'){
+          tickers.push(ticker.name);
+        }
       });
       console.log("\nFound tickers: " + tickers + "\n");
 
