@@ -88,10 +88,10 @@ window.onload = () => {
                     
                     
                 },
-                slide: function() {
+                slide: function(event, ui) {
                     var value = $(this).slider("option","value");
                     
-                    $(this).find(".ui-slider-handle").text(value);
+                    $(this).find(".ui-slider-handle").text(ui.value);
                 },
             });
 

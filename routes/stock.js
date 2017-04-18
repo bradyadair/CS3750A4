@@ -74,7 +74,6 @@
           if(err) return console.error(err);
         });
         
-        //return res.status(200).json(stock);
           
       }
     }).then(function(stock) { 
