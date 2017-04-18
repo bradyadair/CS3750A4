@@ -56,11 +56,11 @@
     
     var sess = req.session;
     var userId = sess.userId;
-    var newStock = req.body.stock;
+    var newStock = req.body.name;
 
     var s = {name: newStock, y: 0};
 
-    User.findOneAndUpdate({_id: userId },{$push: { stocks : s }},{upsert:true, safe:true})
+    User.findOneAndUpdate({_id: userId },{$push: { stockPercentages : s }},{upsert:true, safe:true})
         .then(function(stock) { 
             res.status(200).json(stock);
         })

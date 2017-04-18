@@ -67,7 +67,7 @@ function init() {
         var stockInput = document.getElementById("mySearch").value.trim();
 
         var patchData = {
-                stock: stockInput,
+                name: stockInput,
             };
 
         console.log(patchData);
