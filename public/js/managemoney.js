@@ -119,6 +119,7 @@ window.onload = () => {
             plotOptions: {
                 pie: {
                     allowPointSelect: false, //true
+                    slicedOffset: 30,
                     cursor: 'pointer',
                     dataLabels: {
                 enabled: true,
