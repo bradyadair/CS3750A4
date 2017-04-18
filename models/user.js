@@ -7,8 +7,8 @@ module.exports = mongoose.model('User', new Schema({
   first_name: String,
   last_name: String,
   password: String,
-  messages:  [{ 
-    content: { type: String },
-    date: { type: Date, default: Date.now }
+  stockPercentages: [{
+    name: {type:String},
+    y: {type:Number}
   }]
 }));

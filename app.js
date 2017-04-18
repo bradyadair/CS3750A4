@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var jade = require('jade');
 
 
-var User          = require('./models/user');
+var User = require('./models/user');
 
 // added ***************************
 var app = express();
@@ -40,6 +40,7 @@ app.use(session({
 }));
 
 // view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 

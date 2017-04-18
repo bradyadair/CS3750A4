@@ -17,7 +17,7 @@ router.get('/login', function(req, res, next) {
       res.render('users/login'); 
     } else {
       
-      res.redirect('../stock/stock');
+      res.redirect('../stock/addStock');
     }  
 });
 
@@ -145,16 +145,18 @@ router.post('/login', function(req, res) {
       if (user.password != req.body.password) {
         res.render('users/login', {loginError: "Invalid Login"});
       } else {
-        var genToken = jwt.sign( {username: user.username}, 'secret', {
+          var genToken = jwt.sign( {username: user.username}, 'secret', {
           expiresIn: "23h"
         });
         var sess = req.session;          
         sess.token = genToken;
+        sess.userId = user._id;
+        console.log(sess.userId);
         
         myEmail = user.email;
         myUsername = user.username;
         
-        res.redirect('../stock/stock');
+        res.redirect('../stock/addStock');
       }
     }   
  });
