@@ -523,7 +523,283 @@ textarea:focus {
 	color: #19FF8B;
 }
 
-#container{
-	width:100%; 
-	height:400px;
+.stockList {
+	position: relative;
+    visibility: visible;
+    outline: 0px;
+    margin: 0 auto;
+    padding: 0px;
+    text-align: center;
+    font-size: 26px;
+    font-family: sans-serif;
+    background-color: rgb(255, 255, 255);
+    z-index: 100;
+    cursor: default;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(170, 170, 170);
+    overflow-x: hidden;
+    white-space: pre;
+    overflow-y: scroll;
+    left: 0px;
+    top: 100%;
+    max-height: 448.333px;
+    width: 300px;
+    margin-top: 50px;
+
+}
+
+.stock {
+	color: rgb(51, 51, 51);
+    background-color: rgb(221, 221, 221);
+    outline: 0px;
+
+}
+
+.search {
+	color: white;
+}
+
+.searchStocks {
+	margin-top: 125px;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+   color: lightslategray;
+}
+:-moz-placeholder {
+   font-style: italic; 
+   color: lightslategray;
+}
+::-moz-placeholder {
+   font-style: italic; 
+   color: lightslategray; 
+}
+:-ms-input-placeholder {  
+   font-style: italic;
+   color: lightslategray;
+}
+
+#mySearch {
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	padding: 3px 10px 3px 10px;
+	width: 250px;
+}
+
+
+#mySearch:hover {
+	border: 2px solid mediumseagreen;
+	
+}
+
+#addStockFinal {
+	background: mediumseagreen;
+    margin-top: 50px;
+    border: 0px solid #ccc;
+    border-radius: 10px;
+    color: white;
+	padding: 3px 10px 3px 10px;
+}
+
+#addStockFinal:hover {
+	background:seagreen;
+	font-size: 15px;
+	
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: springgreen;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 0px solid #000000;
+    width: 80%; /* Could be more or less, depending on screen size */
+    color: black;
+    font-weight: bold;
+    font-size: 30px;  
+    border-radius: 6px;  
+}
+
+
+
+/********************* CSS FOR STOCK LIST PAGE ***********************/
+
+.stock_data{
+	color: white;
+	padding: 20px;
+	padding-top: 10px;
+	margin: auto 0;
+	padding-top: 50x;
+	border-collapse: collapse;
+}
+
+.stocktable{
+	padding:5px;
+	width: 100%;
+}
+
+.stockLabel{
+	border: 1px solid #ddd;
+    padding: 8px;
+	padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: black;
+    color: red;
+	font-weight: bold;
+	font-family: 'Bungee', 'Times New Roman', Times, serif;
+	font-size: large;
+	text-align: center;
+}
+
+.stockListRow{
+	color: black;
+}
+
+.stockListRow:nth-child(even){
+	background-color: #1db8e2
+}
+
+.stockListRow:nth-child(odd){
+	background-color: #1b91c4
+}
+
+.stockListRow:hover{
+	background-color: lawngreen;
+}
+
+.stockColumn{
+	border: 1px solid #ddd;
+    padding: 8px;
+	width: 17%;
+	text-align: right;
+}
+
+.stockColumn:nth-child(1){
+	width: 32%;
+	text-align: center;
+}
+
+.stockColumn:nth-child(2){
+	text-align: center;
+}
+
+.stockColumn:nth-child(5){
+	text-align: center;
+}
+
+.stockColumn:nth-child(6){
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.stockInputDiv{
+	text-align: center;
+	padding-top: 5%;
+	padding-left: 30%;
+	padding-right: 30%;
+	color: white;
+	outline-color: black;
+	text-shadow: black;
+	outline-width: 2px;
+	font-size: 24px;
+}
+
+.stockInputBox{
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+
+/*	CSS for Remove Button	*/
+.hot-container p { margin-top: 10px; }
+a { text-decoration: none; margin: 0 10px; }
+
+.hot-container {
+	min-height: 100px;
+	margin-top: 100px;
+	width: 100%;
+	text-align: center;
+}
+
+a.btn {
+	color: #666;
+	background-color: #eee;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 12px;
+	padding:10px 10px 10px 10px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-bottom-width: 3px;
+}
+
+	a.btn:hover {
+		background-color: #e3e3e3;
+		border-color: rgba(0,0,0,0.5);
+	}
+	
+	a.btn:active {
+		background-color: #CCC;
+		border-color: rgba(0,0,0,0.9);
+	}
+
+/* red button */
+
+a.btn.btn-red {
+	background-color: #E48681;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #FFF;
+}
+
+a.btn.btn-red:hover {
+	background-color: #DA4F49;
+	border-color: rgba(0,0,0,0.5);
+}
+	
+a.btn.btn-red:active {
+	background-color: #B32C24;
+	border-color: rgba(0,0,0,0.9);
+}
+
+/* input ticker to track btn */
+
+.btn{
+  background:#2ecc71;
+  width:125px;
+  height:30px;
+  padding-top:5px;
+  padding-bottom:5px;
+  color:white;
+  border-radius:4px;
+  border: #27ae60 1px solid;
+  text-align: center;
+  margin-top:10px;
+  margin-bottom:10px;
+  font-weight:800;
+  font-size:0.8em;
+  font-family: initial;
+}
+
+.btn:hover{
+  background:#2CC06B; 
 }
