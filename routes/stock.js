@@ -260,11 +260,11 @@ router.post('/stocklist', function (req, res, next) {
       console.log("\nIn stocklist post status = remove\n");
         User.findOneAndUpdate({ username: name }, { $pull: { stockPercentages: {name: ticker} } }, { upsert: true, safe: true })
           .then(function (stock) {
-            res.status(200).json(stock);
+            //res.status(200).json(stock);
           })
           .catch(function (err) {
             console.log(err);
-            return res.status(500).json(err);
+            //return res.status(500).json(err);
           })
     }
     res.redirect('stocklist');
