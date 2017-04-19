@@ -7,6 +7,8 @@
   var router  = express.Router();
   var Highcharts = require('Highcharts');
   var request = require('request');
+  var yahooFinance = require('yahoo-finance');
+  var _ = require('underscore');
 
   
  // var Highcharts = require('highcharts');
@@ -148,20 +150,49 @@
   router.post('/queryData', function(req, res) {
     request('http://localhost:3000/stock/stockview', function(error, resAjax, body) {
       console.log("queryData");
-      console.log(error);
-      console.log(res.statusCode);
-      if (!error && res.statusCode == 200) {
+      //console.log(error);
+      //console.log(resAjax.statusCode);
+      if (!error && resAjax.statusCode == 200) {
 
-        // if (period == )
-        // yahooFinancial
-        let fname = req.body.name;
-        let city = req.body.city;
-        console.log(fname);
-        console.log(city);
-        let string = "Name: " + fname + "\nCity: " + city;
+        let dateFrom = req.body.dateFrom;
+        let dateTo = req.body.dateTo;
+        let period = req.body.period;
+        // console.log(dateFrom);
+        // console.log(dateTo);
+        // console.log(period);
+
+        if (period == 'Weekly') {
+          var SYMBOLS = ['AMZN', 'GOOGL'];
+          yahooFinance.historical({
+            symbols: SYMBOLS,
+            from: dateFrom,
+            to: dateTo,
+            period: 'd'
+          }).then(function (result) {
+              _.each(result, function (quotes, symbol) {
+              console.log(
+                '=== %s (%d) ===',
+                symbol,
+                quotes.length
+              );
+              
+              if (quotes[0]) {
+                console.log(
+                  '%s\n...\n%s',
+                  JSON.stringify(quotes[0], null, 2),
+                  JSON.stringify(quotes[quotes.length - 1], null, 2)
+                );
+              } else {
+                console.log("N/A");
+              }
+            });  
+          });
+        }
+        
+        
         let instaData = [43934, 52503, 57177, 69658, 0, 0, 137133, 154175];
-
-        res.json({instaData: instaData});
+        //console.log(instaData);
+        res.json( {instaData: instaData} );
       }
     })
   }); 
