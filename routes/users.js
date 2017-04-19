@@ -154,11 +154,6 @@ router.post('/login', function(req, res) {
         sess.userId = user._id;
         console.log(sess.userId);
         
-        myEmail = user.email;
-        myUsername = user.username;
-
-        req.session['username'] = user.username;
-        
         res.redirect('../stock/addStock');
       }
     }   

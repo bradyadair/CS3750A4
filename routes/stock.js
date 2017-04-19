@@ -60,16 +60,20 @@
     var userId = sess.userId;
     var newStock = req.body.name;
 
+    var sess = req.session;
+    var decodedToken = jwt.verify(sess.token, 'secret');
+    var myUser = decodedToken.username.replace(" ", "");
+
     var s = {name: newStock, y: 0};
     User.findOne({
-      username: req.session['username'],
+      username: myUser,
       stockPercentages : {$elemMatch: {name: newStock}}
     }).then(function(stock, err) { 
             console.log(stock);
             if (stock === null) {
                 console.log("Stock does not exist.  We can add stock now.")
                 User.findOne({
-                  username: req.session['username'],
+                  username: myUser,
                 }, function(err, user) 
                 {
                   if (err) next(err);//return res.status(500).json(err);//
@@ -294,6 +298,7 @@ router.post('/stocklist', function (req, res, next) {
 
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
+    var myUser = decodedToken.username.replace(" ", "");
 
 /*
     var dict = [{
@@ -321,7 +326,7 @@ router.post('/stocklist', function (req, res, next) {
              
 
     User.findOne({
-      username: req.session['username']
+      username: myUser
     }, function(err, user) 
     {
       if (err) next(err);
@@ -365,6 +370,7 @@ router.post('/stocklist', function (req, res, next) {
 
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
+    var myUser = decodedToken.username.replace(" ", "");
 
     console.log("i'm in managemoney post");
     console.log(req.body.hiddenDict);
@@ -375,7 +381,7 @@ router.post('/stocklist', function (req, res, next) {
 
     User.findOne(
     {
-      username: req.session['username']
+      username: myUser
     }, function(err, user) 
     {
         if (err) next(err);
