@@ -21,7 +21,7 @@ body {
 	background-position-x: -1440px;
 	background-position-y: -1846px;
 	background-color: #287b5e;
-	color:#667073;
+	color:black;
 	font-family: 'Bungee', cursive;
 	font-size: 12pt;
 	max-width: 100%;
@@ -126,7 +126,7 @@ ul {
 
 .bodydiv {
 	text-align:center;
-	margin-top:40px;
+	margin-top:5%;
 }
 h2 {
 	color: white;
@@ -711,9 +711,6 @@ textarea:focus {
 
 .stockInputDiv{
 	text-align: center;
-	padding-top: 5%;
-	padding-left: 30%;
-	padding-right: 30%;
 	color: white;
 	outline-color: black;
 	text-shadow: black;
@@ -744,7 +741,7 @@ a.btn {
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	font-size: 12px;
-	padding:10px 10px 10px 10px;
+	padding:10px 10px 22px 10px;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -784,14 +781,14 @@ a.btn.btn-red:active {
 /* input ticker to track btn */
 
 .btn{
-  background:#2ecc71;
+  background:whitesmoke;
   width:125px;
   height:30px;
   padding-top:5px;
   padding-bottom:5px;
-  color:white;
+  color:black;
   border-radius:4px;
-  border: #27ae60 1px solid;
+  border: black 1px solid;
   text-align: center;
   margin-top:10px;
   margin-bottom:10px;
@@ -812,4 +809,9 @@ a.btn.btn-red:active {
 .queryPeriod {
 	margin: 8px;
 	padding: 8px;
+}
+
+.button:hover{
+	background-color: #2ecc71;
+	border-color: rgba(0,0,0,0.5);
 }

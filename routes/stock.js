@@ -329,12 +329,12 @@ router.get('/stockview', function (req, res, next) {
       // build array of tickers
       var tickers = [];
       // array to contain each dictionary of yahoo historical data for each ticker
-      var historicalDict;
+      var historicalDict = [];
 
       console.log("Size of sockPercentages: " + n);
       if (n < 2) {
         console.log("Rendering empty page\n");
-        res.render('stocklist', { stockHtml: finalHtml });
+        res.render('stockview', { stockHtml: finalHtml, histDict: historicalDict });
       }
       else {
         user.stockPercentages.forEach(function (ticker) {
