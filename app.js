@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jade = require('jade');
-
+var Highcharts = require('highcharts');
 
 var User = require('./models/user');
 
@@ -26,6 +26,10 @@ db.once('open', function() {
   // we're connected!
   console.log("You're connected to the project 4 db");
 });
+
+// Load module after Highcharts is loaded
+//require('highcharts/modules/exporting')(Highcharts); 
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');

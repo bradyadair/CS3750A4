@@ -803,3 +803,13 @@ a.btn.btn-red:active {
 .btn:hover{
   background:#2CC06B; 
 }
+
+.queryDate {
+	width: 12%;
+	margin: 8px;
+}
+
+.queryPeriod {
+	margin: 8px;
+	padding: 8px;
+}

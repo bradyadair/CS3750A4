@@ -3,9 +3,12 @@
 var express = require('express');
 var session = require('express-session');
 var jwt = require('jsonwebtoken');
+var User = require('../models/user');
 var router = express.Router();
 var User = require('../models/user.js');
 var yahooFinance = require('yahoo-finance');
+var Highcharts = require('Highcharts');
+var request = require('request');
 
 
 var Highcharts = require('highcharts'); // Since 4.2.0
@@ -461,6 +464,7 @@ router.get('/managemoney', function (req, res, next) {
       //dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
       //dict.unshift({name: 'Walmart',y: 10});
 
+
       res.render('managemoney', { dict: dict });
     }
   });
@@ -468,7 +472,6 @@ router.get('/managemoney', function (req, res, next) {
 
 
   //res.render('managemoney', {dict:dict});
-
 
 
 
@@ -566,19 +569,22 @@ router.post('/queryData', function (req, res) {
                     return reject(err);
                   }
                   if (quotes) {
-                    console.log("quotes: \n" + quotes);
+
+                    console.log("quotes: \n"+quotes);
+
                   }
                   else {
                     // change it so renders error on page
                     res.render('error.pug', { error: "Didnt find the users stock: " + quotes.symbol });
                   }
                 })
-                  .then(
-                  function (quotes) {
+                .then(
+                  function(quotes){
                     instaData = quotes;
                     resolve(instaData);
                   }
-                  )
+                )
+
               }
             });
           }
