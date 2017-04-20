@@ -306,14 +306,19 @@ router.get('/stockview', function (req, res, next) {
         mm = '0' + mm;
       }
       var endDate = yyyy + '-' + mm + '-' + dd;
-      if (mm == '01') {
-        yyyy = yyyy - 1;
-        mm = '' + 12;
-      } else {
-        mm = today.getMonth();
-        if (mm < 10) {
-          mm = '0' + mm;
+      // default is set to 6 month span
+      mm = today.getMonth() + 1;
+      if (mm > 6) {
+        mm = mm - 6;
+        if(mm<10){
+          mm='0'+mm;
         }
+      }else if (mm<6){
+        mm = 12-(6-mm);
+        if(mm<10){
+          mm = '0'+mm;
+        }
+        yyyy = yyyy - 1;
       }
       var beginDate = yyyy + '-' + mm + '-' + dd;
       console.log("\nBegin Date: " + beginDate);
