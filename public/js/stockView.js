@@ -18,15 +18,19 @@ window.onload = () => {
             // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
             for (var key in histDict)
             {
+                var symbol = "";
+                
                 console.log("\nkey: "+key+"\n");
                 var x = 0;
                 for (var i = 0; i<histDict[key].length; i++){
                     console.log(" values:");
+                    symbol = histDict[key][i].symbol;
+                    console.log("The symbol: " + symbol);
                     for(var val in histDict[key][i]){
                         console.log("   "+val+": " + histDict[key][i][val]);
                     }
                 }
-                makeChart();
+                makeChart(symbol);
             }
             // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************    
         }
@@ -34,10 +38,10 @@ window.onload = () => {
         makeChartContainers();
         
         
-        function makeChart(){
-                Highcharts.chart('container', {
+        function makeChart(symbol){
+                Highcharts.chart(symbol, {
                     title: {
-                        text: 'My stock performance'
+                        text: symbol
                     },
                     /*subtitle: {
                         text: 'Source: thesolarfoundation.com'

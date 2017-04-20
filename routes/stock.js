@@ -343,7 +343,7 @@ router.get('/stockview', function (req, res, next) {
       function yahooFunct() {
         console.log("\nTickers:" + tickers);
         console.log("Length Tickers: " + tickers.length);
-        
+
         yahooFinance.historical({
           symbols: tickers,
           from: beginDate,
@@ -373,7 +373,7 @@ router.get('/stockview', function (req, res, next) {
               // }
               // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
 
-              tempHtml += '<br/><div id="container" data-id= "' + key + '" style="width:100%; height:400px;"></div>';
+              tempHtml += '<br/><div id="' + key + '" style="width:100%; height:400px;"></div>';
               console.log("\n" + tempHtml);
               count += 1;
               console.log("\nCount : " + count);
