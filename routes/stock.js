@@ -278,15 +278,84 @@ router.post('/stocklist', function (req, res, next) {
 
 /****************** STOCK VIEW ROUTER/CONTROLLER ***********************/
 
-    router.get('/stockview', function(req, res, next) {
+  router.get('/stockview', function(req, res, next) {
 
     var sess = req.session;
     var decodedToken = jwt.verify(sess.token, 'secret');
-    
-    res.render('stockview');
+    var name = decodedToken.username.replace(" ", "");
+    //manually setting dates for start and end
+    var START_DATE = '2017-04-12';
+    var END_DATE = '2017-04-19';
+    User.findOne({
+      username: name
+    }, function (err, user) {
+      if (err) next(err);
+      if (!user) {
+        res.render('error.jade', { error: "Didn't find the user" });
+      } else {
+        count = 0;
+        var tick = "";
+        // gets the users tickers and puts them in an array or if empty renders page
+        var n = user.stockPercentages.length;
+        var tickers = [];
+        console.log("\nSize of stockPercentages: " + n);
+        if (n < 2) {
+          console.log("Rendering empty page\n"); //todo render a page indicating that they are not currently following any stocks or just blank data
+          res.render('stockview'/*, { stockHtml: finalHtml, tick: tick }*/);  //what are we going to pass to the stockview page
+        }
+        else{
+          user.stockPercentages.forEach(function (ticker) {
+            if (ticker.name != 'UnAllocated Stocks') {
+              tickers.push(ticker.name);
+            }
+          });
+          console.log("\nFound tickers: " + tickers + "\n");
+          // this is where the functions above actually start getting called, did it last so their vars are declared and instantiated
+          yahooHistoricalFunc( START_DATE, END_DATE, tickers, tick, count, n, res); //todo this is not the correct variables to be calling for our function
+        }
+        // function queries yahoo for financial data and appends to html variables to pass through the render and use on users page
+        function yahooHistoricalFunc( START_DATE, END_DATE, tickers, tick, count, n, res) {
+          console.log("Tickers:" +tickers);
+          console.log("Length Tickers: " + tickers.length);
+          for (var i = 0; i < tickers.length; i++) {
+            console.log("Current Ticker:" +tickers[i]);
+            yahooFinance.historical({
+	            symbols: tickers[i],
+	            from: START_DATE,
+	            to: END_DATE
+            }, function (err, result) {
+              if (err) {
+                console.log(err);
+                next(err);
+              }
+              if(!historical) {
+                //render error on the page 
+                //todo: change this error render to be the render for the stock view page 
+                res.render('stockview', { error: "Didnt find the users stock: " + ticker[i], stockHtml: finalHtml, tick: tick });
+              }
+              else {
+                //todo: push the value of the stock for the timeframe in an array
+
+                // The query isnt syncing well so this is sort of a work around to wait to render the page
+                // We may want a better solution
+
+                if (count == tickers.length) {
+                  finishHtml(count, tick, res);
+                }
+              }
+            });
+          }
+        }
+        // made this function to delay rendering page because the query for financial data needs a promise, crude workaround
+        function finishHtml(count, /*tempHtml, finalHtml,*/ tick, res) {
+          console.log("-- In finishHtml");
+          console.log("Final Count : " + count + "\n");
+          //finalHtml += tempHtml;
+          res.render('stockview');
+        }
+      }
+    });
   });
-
-
 
 /****************** MANAGE MONEY ROUTER/CONTROLLER ***********************/
 
@@ -296,30 +365,6 @@ router.post('/stocklist', function (req, res, next) {
     var decodedToken = jwt.verify(sess.token, 'secret');
     var myUser = decodedToken.username.replace(" ", "");
 
-/*
-    var dict = [{
-                    name: 'Microsoft Internet Explorer',
-                    y: 10
-                }, {
-                    name: 'Chrome',
-                    y: 20,
-                    //sliced: true,
-                    //selected: true
-                }, {
-                    name: 'Firefox',
-                    y: 30
-                }, {
-                    name: 'Safari',
-                    y: 0
-                }, {
-                    name: 'Opera',
-                    y: 0
-                }, {
-                    name: 'UnAllocated Stocks',
-                    y: 40
-                }];
-         */       
-             
 
     User.findOne({
       username: myUser
@@ -336,13 +381,7 @@ router.post('/stocklist', function (req, res, next) {
           res.render('managemoney', {dict:dict});
       }
     });  
-    
-    
 
-    //res.render('managemoney', {dict:dict});
-
-          
-    
     
   });
 
