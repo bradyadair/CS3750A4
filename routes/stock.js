@@ -10,6 +10,7 @@ var yahooFinance = require('yahoo-finance');
 var Highcharts = require('Highcharts');
 var request = require('request');
 
+
 var Highcharts = require('highcharts'); // Since 4.2.0
 
 router.all('*', (req, res, next) => {
@@ -448,6 +449,22 @@ router.get('/managemoney', function (req, res, next) {
     else if (user) {
       dict = user.stockPercentages;
 
+      /*
+                //used for deleting a specific item from the array
+                for (var i = 0; i<dict.length; i++)
+                {
+                  if (dict[i]['name'] == 'Microsoft Internet Explorer')
+                  {
+                    dict.splice(i, 1);
+                  }
+                }
+                */
+
+      //used for adding an item to the beginning of the array
+      //dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+      //dict.unshift({name: 'Walmart',y: 10});
+
+
       res.render('managemoney', { dict: dict });
     }
   });
@@ -455,7 +472,6 @@ router.get('/managemoney', function (req, res, next) {
 
 
   //res.render('managemoney', {dict:dict});
-
 
 
 
@@ -499,6 +515,9 @@ router.post('/managemoney', function (req, res, next) {
 
   res.render('managemoney', { dict: dict });
 });
+
+
+/****************** STOCK VIEW AJAX POST ROUTER/CONTROLLER ***********************/
 
 // stockview ajax post
 router.post('/queryData', function (req, res) {
@@ -550,7 +569,9 @@ router.post('/queryData', function (req, res) {
                     return reject(err);
                   }
                   if (quotes) {
+
                     console.log("quotes: \n"+quotes);
+
                   }
                   else {
                     // change it so renders error on page
@@ -563,6 +584,7 @@ router.post('/queryData', function (req, res) {
                     resolve(instaData);
                   }
                 )
+
               }
             });
           }
