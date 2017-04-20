@@ -373,7 +373,7 @@ router.get('/stockview', function (req, res, next) {
               // }
               // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
 
-              tempHtml += '<br/><div id="' + key + '" style="width:100%; height:400px;"></div>';
+              tempHtml += '<br/><div id="' + key + '" style="width:100%; height:400px; padding-top:1%; padding-bottom:1%"></div>';
               console.log("\n" + tempHtml);
               count += 1;
               console.log("\nCount : " + count);
@@ -396,7 +396,6 @@ router.get('/stockview', function (req, res, next) {
       }
     }
   });
-
   //res.render('stockview');
 });
 
