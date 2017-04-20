@@ -11,6 +11,7 @@ window.onload = () => {
         {
             var stockList = document.getElementById("stockCharts");
             // stockCharts.innerHTML += "<div style='padding-top:15px'>";    
+            //stockCharts.innerHTML += '<br/><div id="container" style="width:100%; height:400px;"></div>'
             stockCharts.innerHTML += finalHtml;
             // stockCharts.innerHTML += "</div>";
 
@@ -25,6 +26,7 @@ window.onload = () => {
                         console.log("   "+val+": " + histDict[key][i][val]);
                     }
                 }
+                makeChart();
             }
             // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************    
         }
@@ -84,7 +86,7 @@ window.onload = () => {
                 });
         };
 
-    makeChart();
+    //makeChart();
  
  
     $(document).ready(function(){

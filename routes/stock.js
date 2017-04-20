@@ -77,27 +77,27 @@ router.post('/stocks', function (req, res, next) {
       User.findOne({
         username: myUser,
       }, function (err, user) {
-          if (err) next(err);//return res.status(500).json(err);//
+        if (err) next(err);//return res.status(500).json(err);//
 
 
-          if (!user) {
-          }
-          else if (user) {
-            var dict = user.stockPercentages;
+        if (!user) {
+        }
+        else if (user) {
+          var dict = user.stockPercentages;
 
-            //used for adding an item to the beginning of the array
-            user.stockPercentages.unshift({ name: newStock, y: 0 });// = dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+          //used for adding an item to the beginning of the array
+          user.stockPercentages.unshift({ name: newStock, y: 0 });// = dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
 
-            user.save(function (err, brady) {
-              if (err) return console.error(err);
-            });
+          user.save(function (err, brady) {
+            if (err) return console.error(err);
+          });
 
 
-          }
-        }).then(function (stock) {
-          console.log(stock);
-          res.status(200).json(stock);
-        })
+        }
+      }).then(function (stock) {
+        console.log(stock);
+        res.status(200).json(stock);
+      })
         .catch(function (err) {
           console.log(err);
           return res.status(500).json(err);
@@ -299,25 +299,25 @@ router.get('/stockview', function (req, res, next) {
       var dd = today.getDate();
       var mm = today.getMonth() + 1;
       var yyyy = today.getFullYear();
-      if (dd<10){
-        dd = '0'+dd;
+      if (dd < 10) {
+        dd = '0' + dd;
       }
-      if (mm<10){
-        mm = '0'+mm;
+      if (mm < 10) {
+        mm = '0' + mm;
       }
-      var endDate = yyyy+'-'+mm+'-'+dd;
-      if (mm=='01'){
-        yyyy = yyyy-1;
-        mm = ''+12;
-      }else{
+      var endDate = yyyy + '-' + mm + '-' + dd;
+      if (mm == '01') {
+        yyyy = yyyy - 1;
+        mm = '' + 12;
+      } else {
         mm = today.getMonth();
-        if (mm<10){
-        mm = '0'+mm;
+        if (mm < 10) {
+          mm = '0' + mm;
         }
       }
-      var beginDate = yyyy+'-'+mm+'-'+dd;
-      console.log("\nBegin Date: "+ beginDate);
-      console.log("End Date: "+ endDate);
+      var beginDate = yyyy + '-' + mm + '-' + dd;
+      console.log("\nBegin Date: " + beginDate);
+      console.log("End Date: " + endDate);
       // gets the users tickers and puts them in an array or if empty renders page
       var n = user.stockPercentages.length;
       // build array of tickers
@@ -343,59 +343,56 @@ router.get('/stockview', function (req, res, next) {
       function yahooFunct() {
         console.log("\nTickers:" + tickers);
         console.log("Length Tickers: " + tickers.length);
-        for (var i = 0; i < tickers.length; i++) {
-          console.log("Current Ticker:" + tickers[i]);
-          yahooFinance.historical({
-            symbols: tickers,
-            from: beginDate,
-            to: endDate,
-            period: 'w'   //default period is weekly
-          }, function (err, quotes) {
-            if (err) {
-              console.log("\n"+err);
-              next(err);
-            }
-            if (!quotes) {
-              // change it so renders error on page
-              res.render('error.pug', { error: "Didnt find the users stock: " + quotes.symbol});
-            }
-            else {
-              historicalDict = quotes;
+        
+        yahooFinance.historical({
+          symbols: tickers,
+          from: beginDate,
+          to: endDate,
+          period: 'w'   //default period is weekly
+        }, function (err, quotes) {
+          if (err) {
+            console.log("\n" + err);
+            next(err);
+          }
+          if (!quotes) {
+            // change it so renders error on page
+            res.render('error.pug', { error: "Didnt find the users stock: " + quotes.symbol });
+          }
+          else {
+            historicalDict = quotes;
 
-              // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
-              for (var key in historicalDict)
-              {
-                // console.log("\nHistorical Dict Data "+count+":\n"+"key: "+key+"\n");
-                // var x = 0;
-                // for (var i = 0; i<historicalDict[key].length; i++){
-                //   console.log(" values:");
-                //   for(var val in historicalDict[key][i]){
-                //     console.log("   "+val+": " + historicalDict[key][i][val]);
-                //   }
-                // }
+            // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
+            for (var key in historicalDict) {
+              // console.log("\nHistorical Dict Data "+count+":\n"+"key: "+key+"\n");
+              // var x = 0;
+              // for (var i = 0; i<historicalDict[key].length; i++){
+              //   console.log(" values:");
+              //   for(var val in historicalDict[key][i]){
+              //     console.log("   "+val+": " + historicalDict[key][i][val]);
+              //   }
+              // }
               // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
 
-                tempHtml += '<br/><div data-id= "'+key+'" id="container" style="width:100%; height:400px;"></div>';
-                console.log("\n" + tempHtml);
-                count += 1;
-                console.log("\nCount : " + count);
-                // The query isnt syncing well so this is sort of a work around to wait to render the page
-                // We may want a better solution
-                if (count == tickers.length) {
-                  finishHtml();
-                }
+              tempHtml += '<br/><div id="container" data-id= "' + key + '" style="width:100%; height:400px;"></div>';
+              console.log("\n" + tempHtml);
+              count += 1;
+              console.log("\nCount : " + count);
+              // The query isnt syncing well so this is sort of a work around to wait to render the page
+              // We may want a better solution
+              if (count == tickers.length) {
+                finishHtml();
               }
-            // END OF FOR LOOP 
             }
-          });
-        }
+            // END OF FOR LOOP 
+          }
+        });
       }
       // made this function to delay rendering page because the query for financial data needs a promise, crude workaround
       function finishHtml() {
         console.log("-- In finishHtml");
         console.log("Final Count : " + count + "\n");
         finalHtml += tempHtml;
-        res.render('stockview', { stockHtml: finalHtml, histDict:historicalDict });
+        res.render('stockview', { stockHtml: finalHtml, histDict: historicalDict });
       }
     }
   });
@@ -441,16 +438,16 @@ router.get('/managemoney', function (req, res, next) {
   User.findOne({
     username: myUser
   }, function (err, user) {
-      if (err) next(err);
+    if (err) next(err);
 
-      if (!user) {
-      }
-      else if (user) {
-        dict = user.stockPercentages;
+    if (!user) {
+    }
+    else if (user) {
+      dict = user.stockPercentages;
 
-        res.render('managemoney', { dict: dict });
-      }
-    });
+      res.render('managemoney', { dict: dict });
+    }
+  });
 
 
 
