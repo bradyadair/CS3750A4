@@ -161,40 +161,92 @@
         // console.log(dateTo);
         // console.log(period);
 
+        var seriesArray = [];
+
         if (period == 'Weekly') {
           var SYMBOLS = ['AMZN', 'GOOGL'];
+          // queryData(seriesArray, SYMBOLS, dateFrom, dateTo)
+          //   .then(res.json( {seriesArray : seriesArray} ));
           yahooFinance.historical({
             symbols: SYMBOLS,
             from: dateFrom,
             to: dateTo,
             period: 'd'
-          }).then(function (result) {
+          }).then(function (result) {              
               _.each(result, function (quotes, symbol) {
-              console.log(
-                '=== %s (%d) ===',
-                symbol,
-                quotes.length
-              );
-              
+              // console.log(
+              //   '=== %s (%d) ===',
+              //   symbol,
+              //   quotes.length
+              // );        
               if (quotes[0]) {
-                console.log(
-                  '%s\n...\n%s',
-                  JSON.stringify(quotes[0], null, 2),
-                  JSON.stringify(quotes[quotes.length - 1], null, 2)
-                );
+                // console.log(
+                //   '%s\n...\n%s',
+                //   JSON.stringify(quotes[0], null, 2),
+                //   JSON.stringify(quotes[quotes.length - 1], null, 2)
+                // );
+                // create data object to fill seriesArray
+                var seriesObject = {};
+                seriesObject.name = symbol;
+                seriesObject.data = [];
+
+                _.each(quotes, function (quote) {
+                  //console.log(quote.close);
+                  seriesObject.data.push(quote.close);
+                });
               } else {
                 console.log("N/A");
               }
+              seriesArray.push(seriesObject);
+              //console.log("_.each" + seriesArray);
             });  
-          });
+          }).then(function(data) {
+            res.json( {seriesArray : seriesArray} ); 
+          })                     
         }
         
-        
-        let instaData = [43934, 52503, 57177, 69658, 0, 0, 137133, 154175];
+        //let instaData = [43934, 52503, 57177, 69658, 0, 0, 137133, 154175];
         //console.log(instaData);
-        res.json( {instaData: instaData} );
+        //res.json( {instaData: instaData} );
       }
     })
   }); 
+
+  // function queryData(seriesArray, SYMBOLS, dateFrom, dateTo) {
+  //   yahooFinance.historical({
+  //     symbols: SYMBOLS,
+  //     from: dateFrom,
+  //     to: dateTo,
+  //     period: 'd'
+  //   }).then(function (result) {              
+  //       _.each(result, function (quotes, symbol) {
+  //       // console.log(
+  //       //   '=== %s (%d) ===',
+  //       //   symbol,
+  //       //   quotes.length
+  //       // );        
+  //       if (quotes[0]) {
+  //         // console.log(
+  //         //   '%s\n...\n%s',
+  //         //   JSON.stringify(quotes[0], null, 2),
+  //         //   JSON.stringify(quotes[quotes.length - 1], null, 2)
+  //         // );
+  //         // create data object to fill seriesArray
+  //         var seriesObject = {};
+  //         seriesObject.name = symbol;
+  //         seriesObject.data = [];
+
+  //         _.each(quotes, function (quote) {
+  //           //console.log(quote.close);
+  //           seriesObject.data.push(quote.close);
+  //         });
+  //       } else {
+  //         console.log("N/A");
+  //       }
+  //       seriesArray.push(seriesObject);
+  //       //console.log("_.each" + seriesArray);
+  //     });  
+  //   });
+  // }
 
 module.exports = router;
