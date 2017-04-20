@@ -4,10 +4,7 @@ window.onload = () => {
             var value = 0;
         });
 
-        var thinkTank = { SP500:[0,100],SP500:[1,102],SP500:[2,103],SP500:[4,105],SP500:[6,102],SP500:[7,113],
-            SP500:[8,256],SP500:[9,56],SP500:[10,24],SP500:[11,113],SP500:[12,115],SP500:[13,112],SP500:[14,130],
-            SP500:[15,145],SP500:[16,150],SP500:[17,145],SP500:[18,170],SP500:[19,190],SP500:[20,175],
-            SP500:[21,180],SP500:[22,150],SP500:[23,145],SP500:[24,179] }
+        var instaData = [{y:43934, indexChange:'+1.5'}, {y:52503, indexChange:'-1.2'}, 57177, 69658, 97031, 119931, 137133, 154175];
 
         function makeChart(){
                 Highcharts.chart('container', {
@@ -44,7 +41,7 @@ window.onload = () => {
                     },
                     series: [{
                         name: 'Installation',
-                        data: [{y:43934, indexChange:'+1.5'}, {y:52503, indexChange:'-1.2'}, 57177, 69658, 97031, 119931, 137133, 154175]
+                        data: instaData
                     }, {
                         name: 'Manufacturing',
                         data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
@@ -60,5 +57,26 @@ window.onload = () => {
                     }]
                 });
         };
-            makeChart();
+
+    makeChart();
+ 
+ 
+    $(document).ready(function(){
+        $("button").click(function(){ 
+            let inputData = $("#formData").serializeArray();
+
+            $.post("/stock/queryData",
+            {              
+                //symbols:
+                dateFrom: inputData[0].value,
+                dateTo: inputData[1].value,
+                period: inputData[2].value
+            },
+            function(data, status) {
+                instaData = data.instaData;
+                //alert(instaData);
+                makeChart();
+            });
+        });
+    });
 };
