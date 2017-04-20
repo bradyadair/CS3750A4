@@ -75,27 +75,27 @@ router.post('/stocks', function (req, res, next) {
       User.findOne({
         username: myUser,
       }, function (err, user) {
-          if (err) next(err);//return res.status(500).json(err);//
+        if (err) next(err);//return res.status(500).json(err);//
 
 
-          if (!user) {
-          }
-          else if (user) {
-            var dict = user.stockPercentages;
+        if (!user) {
+        }
+        else if (user) {
+          var dict = user.stockPercentages;
 
-            //used for adding an item to the beginning of the array
-            user.stockPercentages.unshift({ name: newStock, y: 0 });// = dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+          //used for adding an item to the beginning of the array
+          user.stockPercentages.unshift({ name: newStock, y: 0 });// = dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
 
-            user.save(function (err, brady) {
-              if (err) return console.error(err);
-            });
+          user.save(function (err, brady) {
+            if (err) return console.error(err);
+          });
 
 
-          }
-        }).then(function (stock) {
-          console.log(stock);
-          res.status(200).json(stock);
-        })
+        }
+      }).then(function (stock) {
+        console.log(stock);
+        res.status(200).json(stock);
+      })
         .catch(function (err) {
           console.log(err);
           return res.status(500).json(err);
@@ -274,7 +274,6 @@ router.post('/stocklist', function (req, res, next) {
 
 /****************** STOCK VIEW ROUTER/CONTROLLER ***********************/
 
-
 router.get('/stockview', function (req, res, next) {
   console.log("\nIn stockview get");
   var sess = req.session;
@@ -403,6 +402,7 @@ router.get('/stockview', function (req, res, next) {
 });
 
 
+
 /****************** MANAGE MONEY ROUTER/CONTROLLER ***********************/
 
 router.get('/managemoney', function (req, res, next) {
@@ -439,31 +439,31 @@ router.get('/managemoney', function (req, res, next) {
   User.findOne({
     username: myUser
   }, function (err, user) {
-      if (err) next(err);
+    if (err) next(err);
 
-      if (!user) {
-      }
-      else if (user) {
-        dict = user.stockPercentages;
+    if (!user) {
+    }
+    else if (user) {
+      dict = user.stockPercentages;
 
-        /*
-                  //used for deleting a specific item from the array
-                  for (var i = 0; i<dict.length; i++)
+      /*
+                //used for deleting a specific item from the array
+                for (var i = 0; i<dict.length; i++)
+                {
+                  if (dict[i]['name'] == 'Microsoft Internet Explorer')
                   {
-                    if (dict[i]['name'] == 'Microsoft Internet Explorer')
-                    {
-                      dict.splice(i, 1);
-                    }
+                    dict.splice(i, 1);
                   }
-                  */
+                }
+                */
 
-        //used for adding an item to the beginning of the array
-        //dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
-        //dict.unshift({name: 'Walmart',y: 10});
+      //used for adding an item to the beginning of the array
+      //dict.unshift({name: 'Microsoft Internet Explorer',y: 10});
+      //dict.unshift({name: 'Walmart',y: 10});
 
-        res.render('managemoney', { dict: dict });
-      }
-    });
+      res.render('managemoney', { dict: dict });
+    }
+  });
 
 
 
