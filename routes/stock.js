@@ -310,13 +310,13 @@ router.get('/stockview', function (req, res, next) {
       mm = today.getMonth() + 1;
       if (mm > 6) {
         mm = mm - 6;
-        if(mm<10){
-          mm='0'+mm;
+        if (mm < 10) {
+          mm = '0' + mm;
         }
-      }else if (mm<6){
-        mm = 12-(6-mm);
-        if(mm<10){
-          mm = '0'+mm;
+      } else if (mm < 6) {
+        mm = 12 - (6 - mm);
+        if (mm < 10) {
+          mm = '0' + mm;
         }
         yyyy = yyyy - 1;
       }
@@ -368,15 +368,14 @@ router.get('/stockview', function (req, res, next) {
 
             // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
             for (var key in historicalDict) {
-              // console.log("\nHistorical Dict Data "+count+":\n"+"key: "+key+"\n");
-              // var x = 0;
-              // for (var i = 0; i<historicalDict[key].length; i++){
-              //   console.log(" values:");
-              //   for(var val in historicalDict[key][i]){
-              //     console.log("   "+val+": " + historicalDict[key][i][val]);
-              //   }
-              // }
-              // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
+              console.log("\nHistorical Dict Data " + count + ":\n" + "key: " + key + "\n");
+              for (var i = 0; i < historicalDict[key].length; i++) {
+                console.log(" values:");
+                for (var val in historicalDict[key][i]) {
+                  console.log("   " + val + ": " + historicalDict[key][i][val]);
+                }
+              }
+              //******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
 
               tempHtml += '<br/><div id="' + key + '" style="width:100%; height:400px; padding-top:1%; padding-bottom:1%"></div>';
               console.log("\n" + tempHtml);
@@ -504,7 +503,7 @@ router.post('/managemoney', function (req, res, next) {
 // stockview ajax post
 router.post('/queryData', function (req, res) {
   request('http://localhost:3000/stock/stockview', function (error, resAjax, body) {
-    console.log("queryData");
+    console.log("\n In queryData");
     //console.log(error);
     //console.log(resAjax.statusCode);
     if (!error && resAjax.statusCode == 200) {
@@ -512,44 +511,72 @@ router.post('/queryData', function (req, res) {
       let dateFrom = req.body.dateFrom;
       let dateTo = req.body.dateTo;
       let period = req.body.period;
-      // console.log(dateFrom);
-      // console.log(dateTo);
-      // console.log(period);
+      console.log("Date from: " + dateFrom);
+      console.log("Date to: " + dateTo);
+      var instaData = [];
+      var tickers = [];
+      var sess = req.session;
+      var decodedToken = jwt.verify(sess.token, 'secret');
+      var name = decodedToken.username.replace(" ", "");      // THIS IS HOW WE HAVE TO GET THE USERNAME, NOTE: MUST USE THE REPLACE CASUE WHITESPACE
 
-      if (period == 'Weekly') {
-        var SYMBOLS = ['AMZN', 'GOOGL'];
-        yahooFinance.historical({
-          symbols: SYMBOLS,
-          from: dateFrom,
-          to: dateTo,
-          period: 'd'
-        }).then(function (result) {
-          _.each(result, function (quotes, symbol) {
-            console.log(
-              '=== %s (%d) ===',
-              symbol,
-              quotes.length
-            );
+      function querryData() {
+        return new Promise(
+          function (resolve, reject) {
+            User.findOne({
+              username: name
+            }, function (err, user) {
+              if (err) next(err);
 
-            if (quotes[0]) {
-              console.log(
-                '%s\n...\n%s',
-                JSON.stringify(quotes[0], null, 2),
-                JSON.stringify(quotes[quotes.length - 1], null, 2)
-              );
-            } else {
-              console.log("N/A");
-            }
-          });
-        });
+              if (!user) {
+                res.render('error.jade', { error: "Didnt find the user" });
+              } else {
+                var n = user.stockPercentages.length;
+                console.log("Size of sockPercentages: " + n);
+                user.stockPercentages.forEach(function (ticker) {
+                  if (ticker.name != 'UnAllocated Stocks') {
+                    tickers.push(ticker.name);
+                  }
+                });
+
+                yahooFinance.historical({
+                  symbols: tickers,
+                  from: dateFrom,
+                  to: dateTo,
+                  period: period   //default period is weekly
+                }, function (err, quotes) {
+                  if (err) {
+                    console.log("\n" + err);
+                    next(err);
+                    return reject(err);
+                  }
+                  if (quotes) {
+                    console.log("quotes: \n"+quotes);
+                  }
+                  else {
+                    // change it so renders error on page
+                    res.render('error.pug', { error: "Didnt find the users stock: " + quotes.symbol });
+                  }
+                })
+                .then(
+                  function(quotes){
+                    instaData = quotes;
+                    resolve(instaData);
+                  }
+                )
+              }
+            });
+          }
+        )
+
       }
 
-
-      let instaData = [43934, 52503, 57177, 69658, 0, 0, 137133, 154175];
-      //console.log(instaData);
-      res.json({ instaData: instaData });
+      querryData().then(
+        function (instaData) {
+          console.log("\nFinished with query returning now");
+          res.json({ chartData: instaData });
+        }).catch((err) => { throw err; });
     }
-  })
+  });
 });
 
 module.exports = router;

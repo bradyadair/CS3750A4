@@ -7,23 +7,22 @@ block content
 		h2 Stock View Page
 
 		br
-		form
+		form#formData
 			label Date From: 
 			input.queryDate(type='date' name='dateFrom')
 			label Date To: 
 			input.queryDate(type='date' name='dateTo')
 			br
 			label.queryPeriod Daily 
-				input(type='radio' name='periodQuery' value='Daily')
+				input(type='radio' name='periodQuery' value='d')
 			label.queryPeriod Weekly 
-				input(type='radio' name='periodQuery' value='Weekly')
+				input(type='radio' name='periodQuery' value='w')
 			label.queryPeriod Monthly 
-				input(type='radio' name='periodQuery' value='Monthly')
-		button Submit
+				input(type='radio' name='periodQuery' value='m')
+		button#button Submit
 		br
 		div#stockCharts(style='padding-left:5%; padding-right:5%; padding-top:1%')
-			//- br
-			//- #container(style='width:100%; height:400px;')
+
 
 block logout
 	a#logout(href='/users/logout') Logout

@@ -1,11 +1,11 @@
 window.onload = () => {
     $(function () {
-        var dict = stockDict;
+        //var dict = stockDict;
         var value = 0;
     });
 
     var instaData = [{ y: 43934, indexChange: '+1.5' }, { y: 52503, indexChange: '-1.2' }, 57177, 69658, 97031, 119931, 137133, 154175];
-
+    var cDate = [];
 
     function makeChartContainers() {
         var stockList = document.getElementById("stockCharts");
@@ -24,10 +24,10 @@ window.onload = () => {
             var volumes = [];
             var adjCloses = [];
             var dates = [];
-            console.log("\nkey: " + key + "\n");
+            //console.log("\nkey: " + key + "\n");
             var x = 0;
             for (var i = 0; i < histDict[key].length; i++) {
-                console.log(" values:");
+                //console.log(" values:");
                 symbol = histDict[key][i].symbol;
                 opens.push(histDict[key][i].open);
                 highs.push(histDict[key][i].high);
@@ -36,23 +36,24 @@ window.onload = () => {
                 volumes.push(histDict[key][i].volume);
                 adjCloses.push(histDict[key][i].adjClose);
                 var date = histDict[key][i].date + "";
+                //console.log("Raw Date: " +date);
                 date = date.substring(5, 7) + "/" + date.substring(8, 10) + "/" + date.substring(2, 4);
+                //console.log("Formatted Date: " +date);
                 dates.push(date);
                 // console.log("The symbol: " + symbol);
                 // for(var val in histDict[key][i]){
                 //     console.log("   "+val+": " + histDict[key][i][val]);
                 // }
             }
-            console.log("\nOpens: " + opens);
-            console.log("Highs: " + highs);
-            console.log("Lows: " + lows);
-            console.log("Closes: " + closes);
-            console.log("Volumes: " + volumes);
-            console.log("adjCloses: " + adjCloses);
-            console.log("dates: " + dates);
+            // console.log("\nOpens: " + opens);
+            // console.log("Highs: " + highs);
+            // console.log("Lows: " + lows);
+            // console.log("Closes: " + closes);
+            // console.log("Volumes: " + volumes);
+            // console.log("adjCloses: " + adjCloses);
+            // console.log("dates: " + dates);
             makeChart(symbol, opens, highs, lows, closes, volumes, adjCloses, dates);
         }
-        // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************    
     }
 
     makeChartContainers();
@@ -68,7 +69,7 @@ window.onload = () => {
             },
             */
             series: [{
-                showInLegend:false,
+                showInLegend: false,
                 name: 'Dates',
                 data: dates
             }, {
@@ -134,9 +135,40 @@ window.onload = () => {
                     period: inputData[2].value
                 },
                 function (data, status) {
-                    instaData = data.instaData;
-                    //alert(instaData);
-                    makeChart();
+                    var chartData = data.chartData;
+                    for (var key in chartData) {
+                        var symbol = "";
+                        var highs = [];
+                        var lows = [];
+                        var opens = [];
+                        var closes = [];
+                        var volumes = [];
+                        var adjCloses = [];
+                        var dates = [];
+                        var flag = 0;
+                        console.log("\nkey: " + key + "\n");
+                        for (var i = 0; i < chartData[key].length; i++) {
+                            symbol = chartData[key][i].symbol;
+                            opens.push(chartData[key][i].open);
+                            highs.push(chartData[key][i].high);
+                            lows.push(chartData[key][i].low);
+                            closes.push(chartData[key][i].close);
+                            volumes.push(chartData[key][i].volume);
+                            adjCloses.push(chartData[key][i].adjClose);
+                            var date = chartData[key][i].date + "";
+                            date = date.substring(5, 7) + "/" + date.substring(8, 10) + "/" + date.substring(2, 4);
+                            dates.push(date);
+                            //console.log("Date key @ index"+i+": "+date);
+                        }
+                        // console.log("\nOpens: " + opens);
+                        // console.log("Highs: " + highs);
+                        // console.log("Lows: " + lows);
+                        // console.log("Closes: " + closes);
+                        // console.log("Volumes: " + volumes);
+                        // console.log("adjCloses: " + adjCloses);
+                        // console.log("dates: " + dates);
+                        makeChart(symbol, opens, highs, lows, closes, volumes, adjCloses, dates);
+                    }
                 });
         });
     });
