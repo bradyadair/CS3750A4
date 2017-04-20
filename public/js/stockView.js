@@ -6,6 +6,32 @@ window.onload = () => {
 
         var instaData = [{y:43934, indexChange:'+1.5'}, {y:52503, indexChange:'-1.2'}, 57177, 69658, 97031, 119931, 137133, 154175];
 
+        
+        function makeChartContainers()
+        {
+            var stockList = document.getElementById("stockCharts");
+            // stockCharts.innerHTML += "<div style='padding-top:15px'>";    
+            stockCharts.innerHTML += finalHtml;
+            // stockCharts.innerHTML += "</div>";
+
+            // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************
+            for (var key in histDict)
+            {
+                console.log("\nkey: "+key+"\n");
+                var x = 0;
+                for (var i = 0; i<histDict[key].length; i++){
+                    console.log(" values:");
+                    for(var val in histDict[key][i]){
+                        console.log("   "+val+": " + histDict[key][i][val]);
+                    }
+                }
+            }
+            // ******** HOW TO QUERY YAHOO FINANCE HISTORICAL DATA EXAMPLE *****************    
+        }
+
+        makeChartContainers();
+        
+        
         function makeChart(){
                 Highcharts.chart('container', {
                     title: {

@@ -6,7 +6,6 @@ block content
 		br
 		h2 Stock View Page
 
-		#container(style='width:100%; height:400px;')
 		br
 		form
 			label Date From: 
@@ -22,6 +21,9 @@ block content
 				input(type='radio' name='periodQuery' value='Monthly')
 		button Submit
 		br
+		div#stockCharts
+			br
+			#container(style='width:100%; height:400px;')
 
 block logout
 	a#logout(href='/users/logout') Logout
@@ -39,4 +41,7 @@ block scripts
 	script(src="https://code.highcharts.com/modules/data.js")
 	script(src="https://www.highcharts.com/media/com_demo/js/highslide-full.min.js")
 	script(src="https://www.highcharts.com/media/com_demo/js/highslide.config.js" charset="utf-8")
+	script(type='text/javascript')
+		| var finalHtml =!{JSON.stringify(stockHtml)};
+		| var histDict =!{JSON.stringify(histDict)};
 	script(src="/js/stockView.js")
