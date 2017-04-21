@@ -156,7 +156,7 @@ router.get('/stocklist', function (req, res, next) {
       res.render('error.jade', { error: "Didnt find the user" });
     } else {
       // start of html string to concatonate and pass as final html string
-      var finalHtml = "<Table class='stocktable'><tr><th class='stockLabel'>Stock Name</th><th class='stockLabel'>Ticker</th><th class='stockLabel'>Open Price</th><th class='stockLabel'>Current Price</th><th class='stockLabel'>Status</th><th class='stockLabel'></th></tr>"
+      var finalHtml = "<Table id='stocktable' class='stocktable'><tr><th class='stockLabel'>Stock Name</th><th class='stockLabel'>Ticker</th><th class='stockLabel'>Open Price</th><th class='stockLabel'>Current Price</th><th class='stockLabel'>Status</th><th class='stockLabel'></th></tr>"
       var tempHtml = "";
       var status = "";
       var math = 0;
@@ -212,7 +212,7 @@ router.get('/stocklist', function (req, res, next) {
 
               tempHtml += "<tr class='stockListRow'>";
               tempHtml += "<td class='stockColumn'>" + snapshot.name + "</td><td class='stockColumn'>" + snapshot.symbol + "</td><td class='stockColumn'>$" + snapshot.open + "</td><td class='stockColumn'>$"
-                + snapshot.lastTradePriceOnly + "</td><td class='stockColumn'>" + status + "</td><td class='stockColumn'><a href='#' id='removebtn' data-id='" + snapshot.symbol + "' name='removebtn' class='btn btn-red'>Remove</a></td>";
+                + snapshot.lastTradePriceOnly + "</td><td class='stockColumn'>" + status + "</td><td class='stockColumn'><a href='#' id='" + snapshot.symbol + "' data-id='" + snapshot.symbol + "' name='removebtn' class='btn btn-red'>Remove</a></td>";
               tempHtml += "</tr>";
               console.log("\n" + tempHtml);
               count += 1;
