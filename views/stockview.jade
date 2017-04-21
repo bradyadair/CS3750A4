@@ -6,11 +6,15 @@ block content
 		br
 		h2 Stock View Page
 		br
+		div.modal#myModal
+			div.modal-content2
+				span.close x
+				p#error.perror(style='padding: 20px; color: red;')
 		form#formData
 			label Date From: 
-			input.queryDate(type='date' name='dateFrom')
+			input.queryDate(id='from' type='date' name='dateFrom')
 			label Date To: 
-			input.queryDate(type='date' name='dateTo')
+			input.queryDate(id='to' type='date' name='dateTo')
 			br
 			label.queryPeriod Daily 
 				input(type='radio' name='periodQuery' value='d')
