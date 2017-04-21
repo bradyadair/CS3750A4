@@ -778,6 +778,24 @@ a.btn.btn-red:active {
 	border-color: rgba(0,0,0,0.9);
 }
 
+a.btn.btn-blue {
+	background-color: #0CB8ED;
+	border-color: rgba(0,0,0,0.3);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+	color: #FFF;
+	width:250px;
+}
+
+a.btn.btn-blue:hover {
+	background-color: #2CC06B;
+	border-color: rgba(0,0,0,0.5);
+}
+	
+a.btn.btn-red:active {
+	background-color: #069844;
+	border-color: rgba(0,0,0,0.9);
+}
+
 /* input ticker to track btn */
 
 .btn{
