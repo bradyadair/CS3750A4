@@ -417,12 +417,16 @@ router.post('/queryData', function (req, res) {
       var name = decodedToken.username.replace(" ", "");      // THIS IS HOW WE HAVE TO GET THE USERNAME, NOTE: MUST USE THE REPLACE CASUE WHITESPACE
 
       if (period == "d") {
-        console.log("This should be happening client side...wtf");
+        console.log("This should be happening client side...wtf... daily is client side");
       } else if (period == "w") {
         getStockWeek(name, req, res);
       } else if (period == "m") {
         getStockMonth(name, req, res);
-      } else {
+      } else if (period == "6m") {
+        getStock6Month(name, req, res);
+      } else if (period == 'y'){
+        getStockYear(name, req, res);
+      }else {
         console.log("Some weird period error")
       }
     }
@@ -490,7 +494,7 @@ function getStockWeek(name, req, res) {
     }).catch((err) => { throw err; });
 }
 
-// Query yahoo-finance for stock data this month with period of weekly
+// Query yahoo-finance for stock data this month with period of daily
 function getStockMonth(name, req, res) {
   var instaData = [];
   var tickers = [];
@@ -519,6 +523,129 @@ function getStockMonth(name, req, res) {
               from: dateFrom,
               to: dateTo,
               period: 'd'   //default period is daily
+            }, function (err, quotes) {
+              if (err) {
+                console.log("\n" + err);
+                next(err);
+                return reject(err);
+              }
+              if (quotes) {
+                console.log("quotes: \n" + quotes);
+              }
+              else {
+                // change it so renders error on page
+                res.render('error.pug', { error: "Didnt find the users stock: " + quotes.symbol });
+              }
+            })
+              .then(
+              function (quotes) {
+                instaData = quotes;
+                resolve(instaData);
+              }
+              )
+          }
+        });
+      }
+    )
+  }
+  querryData().then(
+    function (instaData) {
+      console.log("\nFinished with query returning now");
+      res.json({ chartData: instaData });
+    }).catch((err) => { throw err; });
+}
+
+// Query yahoo-finance for stock data last 6 months with period of weekly
+function getStock6Month(name, req, res) {
+  var instaData = [];
+  var tickers = [];
+  var today = moment().format('YYYY-MM-DD');
+  var dateFrom = moment().subtract(6, 'months').format('YYYY-MM-DD');
+  var dateTo = today;
+  function querryData() {
+    return new Promise(
+      function (resolve, reject) {
+        User.findOne({
+          username: name
+        }, function (err, user) {
+          if (err) next(err);
+          if (!user) {
+            res.render('error.jade', { error: "Didnt find the user" });
+          } else {
+            var n = user.stockPercentages.length;
+            console.log("Size of sockPercentages: " + n);
+            user.stockPercentages.forEach(function (ticker) {
+              if (ticker.name != 'UnAllocated Stocks') {
+                tickers.push(ticker.name);
+              }
+            });
+            yahooFinance.historical({
+              symbols: tickers,
+              from: dateFrom,
+              to: dateTo,
+              period: 'w'   //default period is daily
+            }, function (err, quotes) {
+              if (err) {
+                console.log("\n" + err);
+                next(err);
+                return reject(err);
+              }
+              if (quotes) {
+                console.log("quotes: \n" + quotes);
+              }
+              else {
+                // change it so renders error on page
+                res.render('error.pug', { error: "Didnt find the users stock: " + quotes.symbol });
+              }
+            })
+              .then(
+              function (quotes) {
+                instaData = quotes;
+                resolve(instaData);
+              }
+              )
+          }
+        });
+      }
+    )
+  }
+  querryData().then(
+    function (instaData) {
+      console.log("\nFinished with query returning now");
+      res.json({ chartData: instaData });
+    }).catch((err) => { throw err; });
+}
+
+
+// Query yahoo-finance for stock data this year with period of monthly
+function getStockYear(name, req, res) {
+  var instaData = [];
+  var tickers = [];
+  var today = moment().format('YYYY-MM-DD');
+  var dateFrom = moment().subtract(1, 'years').format('YYYY-MM-DD');
+  var dateTo = today;
+  function querryData() {
+    return new Promise(
+      function (resolve, reject) {
+        User.findOne({
+          username: name
+        }, function (err, user) {
+          if (err) next(err);
+          if (!user) {
+            res.render('error.jade', { error: "Didnt find the user" });
+          } else {
+            var n = user.stockPercentages.length;
+            console.log("Size of sockPercentages: " + n);
+            user.stockPercentages.forEach(function (ticker) {
+              if (ticker.name != 'UnAllocated Stocks') {
+                tickers.push(ticker.name);
+              }
+            });
+            yahooFinance.historical({
+              symbols: tickers,
+              from: dateFrom,
+              to: dateTo,
+              period: 'm'   //default period is daily
             }, function (err, quotes) {
               if (err) {
                 console.log("\n" + err);
