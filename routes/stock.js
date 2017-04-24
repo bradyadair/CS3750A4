@@ -583,7 +583,7 @@ function getStock6Month(name, req, res) {
               symbols: tickers,
               from: dateFrom,
               to: dateTo,
-              period: 'w'   //default period is daily
+              period: 'w'   //default period is weekly
             }, function (err, quotes) {
               if (err) {
                 console.log("\n" + err);
@@ -617,7 +617,7 @@ function getStock6Month(name, req, res) {
 }
 
 
-// Query yahoo-finance for stock data this year with period of monthly
+// Query yahoo-finance for stock data this year with period of weekly
 function getStockYear(name, req, res) {
   var instaData = [];
   var tickers = [];
@@ -645,7 +645,7 @@ function getStockYear(name, req, res) {
               symbols: tickers,
               from: dateFrom,
               to: dateTo,
-              period: 'm'   //default period is daily
+              period: 'w'   //default period is weekly
             }, function (err, quotes) {
               if (err) {
                 console.log("\n" + err);
