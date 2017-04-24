@@ -518,7 +518,7 @@ function getStockMonth(name, req, res) {
               symbols: tickers,
               from: dateFrom,
               to: dateTo,
-              period: 'w'   //default period is weekly
+              period: 'd'   //default period is daily
             }, function (err, quotes) {
               if (err) {
                 console.log("\n" + err);
