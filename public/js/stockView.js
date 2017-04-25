@@ -234,13 +234,10 @@ window.onload = () => {
                                         var dates = [];
                                         //console.log("\nkey: " + key + "\n");
                                         for (var i = 0; i < myArr[key].length; i++) {
-                                            opens.push(myArr[key][i].open);
-                                            highs.push(myArr[key][i].high);
-                                            lows.push(myArr[key][i].low);
-                                            closes.push(myArr[key][i].close);
-                                            volumes.push(myArr[key][i].volume);
                                             var unixTime = myArr[key][i].Timestamp;
-                                            var date = new Date(unixTime);
+                                            //console.log("Timestamp unix: "+unixTime);
+                                            var date = new Date(unixTime * 1000);
+                                            //console.log("unixtime: "+date);
                                             // Hours part from the timestamp
                                             var hours = date.getHours();
                                             // Minutes part from the timestamp
@@ -249,8 +246,15 @@ window.onload = () => {
                                             var seconds = "0" + date.getSeconds();
                                             // Will display time in 10:30:23 format
                                             var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+                                            console.log("Formatted time: " + formattedTime);
                                             dates.push(formattedTime);
+                                            opens.push(myArr[key][i].open);
+                                            highs.push(myArr[key][i].high);
+                                            lows.push(myArr[key][i].low);
+                                            closes.push(myArr[key][i].close);
+                                            volumes.push(myArr[key][i].volume);
                                         }
+                                        console.log("\n\n");
                                         // console.log("\nOpens: " + opens);
                                         // console.log("Highs: " + highs);
                                         // console.log("Lows: " + lows);
