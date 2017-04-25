@@ -266,10 +266,12 @@ router.get('/stockview', function (req, res, next) {
       // array to contain each dictionary of yahoo historical data for each ticker
       var historicalDict = [];
 
+      dict = user.stockPercentages;
+
       console.log("Size of sockPercentages: " + n);
       if (n < 2) {
         console.log("Rendering empty page\n");
-        res.render('stockview', { stockHtml: finalHtml, histDict: historicalDict });
+        res.render('stockview', { stockHtml: finalHtml, histDict: historicalDict, dict: dict });
       }
       else {
         user.stockPercentages.forEach(function (ticker) {
@@ -332,7 +334,8 @@ router.get('/stockview', function (req, res, next) {
         console.log("-- In finishHtml");
         console.log("Final Count : " + count + "\n");
         finalHtml += tempHtml;
-        res.render('stockview', { stockHtml: finalHtml, histDict: historicalDict });
+        
+        res.render('stockview', { stockHtml: finalHtml, histDict: historicalDict, dict: dict });
       }
     }
   });
