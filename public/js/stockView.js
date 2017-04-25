@@ -290,7 +290,7 @@ window.onload = () => {
 
             return function (o) {
                 var url = o.url;
-                if (o.dataType == 'xml')   // @rickdog - fix for XML
+                if (o.dataType == 'xml')   
                     query = 'select * from xml where url="{URL}"';	// XML
                 if (/get/i.test(o.type) && !/json/i.test(o.dataType) && isExternal(url)) {
                     // Manipulate options so that JSONP-x request is made to YQL
